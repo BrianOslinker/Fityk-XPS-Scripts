@@ -9,6 +9,7 @@ Created on Tue Mar 16 15:17:25 2021
 # import packages
 import tkinter as tk
 from tkinter import filedialog
+from pathlib2 import Path
 import pandas as pd
 import ProcessXPSData as xps
 import os
@@ -16,24 +17,27 @@ import os
 # import data
 root = tk.Tk()
 root.withdraw()                                            # hides empty window
-df = filedialog.askopenfilename(title='Select Data')       # asks user for file
-output = filedialog.asksaveasfilename(title='Save As')     # asks where to save
+directory = filedialog.askdirectory(
+    title='Select Data Folder')                            # asks user for file
+output = filedialog.askdirectory(title='Save As Folder')   # asks where to save
 root.destroy()                                             # removes window
-
-# creates data frame with file
-df = pd.read_table(df, delimiter=' ')
-
-# choose data file
-df = xps.ProcessData(df)
-
-# checks what ploting function to call
-if df['Binding Energy'].mean() > 260:
-    fig = xps.PlotC1s(df)
-else:
-    fig = xps.PlotOther(df)
-
-# checks if filetype is .svg, if not saves as svg
-if os.path.splitext(output)[1] == ".svg":
-    fig.savefig(output)
-else:
-    fig.savefig(output+".svg")
+# %%
+pathlist = Path(directory).rglob('*.dat')
+# %%
+for path in pathlist:
+    # %%
+    # creates data frame with file
+    df = pd.read_table(str(path), delimiter=' ')
+# %%
+    # choose data file
+    df = xps.ProcessData(df)
+# %%
+    # checks what ploting function to call
+    if df['Binding Energy'].mean() > 260:
+        fig = xps.PlotC1s(df)
+    else:
+        fig = xps.PlotOther(df)
+# %%
+    # saves as .svg
+    fig.savefig(os.path.join(
+        output, os.path.splitext(str(path))[0]+".svg"))
