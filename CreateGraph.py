@@ -11,12 +11,13 @@ import tkinter as tk
 from tkinter import filedialog
 import pandas as pd
 import ProcessXPSData as xps
+import os
 
 # import data
 root = tk.Tk()
 root.withdraw()                                            # hides empty window
 df = filedialog.askopenfilename(title='Select Data')       # asks user for file
-output = filedialog.asksaveasfile(title='Save As')         # asks where to save
+output = filedialog.asksaveasfilename(title='Save As')     # asks where to save
 root.destroy()                                             # removes window
 
 # creates data frame with file
@@ -27,6 +28,12 @@ df = xps.ProcessData(df)
 
 # checks what ploting function to call
 if df['Binding Energy'].mean() > 260:
-    xps.PlotC1s(df, output)
+    fig = xps.PlotC1s(df)
 else:
-    xps.PlotOther(df, output)
+    fig = xps.PlotOther(df)
+
+# checks if filetype is .svg, if not saves as svg
+if os.path.splitext(output)[1] == ".svg":
+    fig.savefig(output)
+else:
+    fig.savefig(output+".svg")

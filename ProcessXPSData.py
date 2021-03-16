@@ -47,7 +47,7 @@ def ProcessData(df):
     return df
 
 
-def PlotOther(df, output):
+def PlotOther(df):
 
     # set binding energy to x for convenience
     x = df['Binding Energy']
@@ -85,13 +85,10 @@ def PlotOther(df, output):
     ax1.set_xlabel('Binding Energy (eV)')  # global
     ax1.set_ylabel('Count (# electrons)')  # global
 
-    # save figure
-    plt.savefig(output+".svg")  # save as svg
-
-    return
+    return plt
 
 
-def PlotC1s(df, output):
+def PlotC1s(df):
 
     # set binding energy to x for convenience
     x = df['Binding Energy']
@@ -125,7 +122,4 @@ def PlotC1s(df, output):
     ax1.set_xlabel('Binding Energy (eV)')  # global
     ax1.set_ylabel('Count (# electrons)')  # global
 
-    # save figure
-    plt.savefig(output+".svg")  # save as svg
-
-    return
+    return plt
