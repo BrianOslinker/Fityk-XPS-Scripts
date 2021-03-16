@@ -22,8 +22,10 @@ directory = filedialog.askdirectory(
 output = filedialog.askdirectory(title='Save As Folder')   # asks where to save
 root.destroy()                                             # removes window
 
+# creates a list of .dat files in the directory
 pathlist = Path(directory).rglob('*.dat')
 
+# parses each .dat file
 for path in pathlist:
 
     # creates data frame with file
@@ -38,7 +40,8 @@ for path in pathlist:
     else:
         fig = xps.PlotOther(df)
 
-    # saves as .svg
-    filename = os.path.basename(str(path))
-    filename = os.path.splitext(filename)[0]
-    fig.savefig(os.path.join(output, filename+".svg"))
+    # saves as .svg with same name as the .dat file
+
+    filename = os.path.basename(str(path))          # removes path from file
+    filename = os.path.splitext(filename)[0]        # removes .dat from file
+    fig.savefig(os.path.join(output, filename+".svg"))  # saves as svg
