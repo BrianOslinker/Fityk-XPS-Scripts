@@ -8,14 +8,15 @@ Created on Tue Mar 16 15:17:25 2021
 
 # import packages
 import tkinter as tk
+from tkinter import filedialog
 import pandas as pd
 import ProcessXPSData as xps
 
 # import data
 root = tk.Tk()
 root.withdraw()                                            # hides empty window
-df = tk.filedialog.askopenfilename(title='Select Data')    # asks user for file
-output = tk.filedialog.asksaveasfilename(title='Save As')  # asks where to save
+df = filedialog.askopenfilename(title='Select Data')       # asks user for file
+output = filedialog.asksaveasfile(title='Save As')         # asks where to save
 root.destroy()                                             # removes window
 
 # creates data frame with file
