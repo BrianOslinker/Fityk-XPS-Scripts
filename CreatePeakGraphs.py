@@ -16,11 +16,11 @@ import ProcessXPSData as xps
 
 # import data
 root = tk.Tk()
-root.withdraw()                                            # hides empty window
+root.withdraw()                                           # hides empty window
 directory = filedialog.askdirectory(
-    title='Select Data Folder')                            # asks user for file
-output = filedialog.askdirectory(title='Save As Folder')   # asks where to save
-root.destroy()                                             # removes window
+    title='Select Data Folder')                           # asks user for files
+output = filedialog.askdirectory(title='Save As Folder')  # asks where to save
+root.destroy()                                            # removes window
 
 # creates a list of .dat files in the directory
 pathlist = Path(directory).rglob('*.dat')
