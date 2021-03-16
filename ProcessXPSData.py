@@ -10,7 +10,44 @@ Created on Tue Mar 16 14:38:30 2021
 from matplotlib import pyplot as plt
 
 
-def PlotOther(df):
+def ProcessData(df):
+
+    # find size
+    col = len(df.columns)
+
+    # create generic header
+    header = range(col)
+    df.columns = header
+
+    # rename known rows
+    df.rename(columns={0: 'Kenetic Energy',
+                       1: 'Measured', col-1: 'Fit'}, inplace=True)
+
+    # convert KE to BE
+    if (df['Kenetic Energy'].mean()) < 60:                # check for Si2p case
+        df['Kenetic Energy'] = 150 - df['Kenetic Energy']
+    else:
+        df['Kenetic Energy'] = 350 - df['Kenetic Energy']
+    df.rename(columns={'Kenetic Energy': 'Binding Energy'}, inplace=True)
+
+    # find binding energy of peaks
+    sort = df.idxmax()               # finds index of max value for each column
+    sort = sort.drop(['Binding Energy', 'Fit', 'Measured'],
+                     axis='rows')    # remove unnecessary data
+    sort = sort.sort_values()        # returns correct peak order
+
+    # name peaks by binding energy (smallest to largest)
+    for i in range(2, col-1):
+        df.rename(
+            columns={sort.index.values[i-2]: 'Peak ' + str(i-1)}, inplace=True)
+
+    # sort columns by name
+    df = df.sort_index(axis=1)
+
+    return df
+
+
+def PlotOther(df, output):
 
     # set binding energy to x for convenience
     x = df['Binding Energy']
@@ -49,12 +86,12 @@ def PlotOther(df):
     ax1.set_ylabel('Count (# electrons)')  # global
 
     # save figure
-    plt.savefig("MoO3d.svg")  # save as svg
+    plt.savefig(output+".svg")  # save as svg
 
     return
 
 
-def PlotC1s(df):
+def PlotC1s(df, output):
 
     # set binding energy to x for convenience
     x = df['Binding Energy']
@@ -89,6 +126,6 @@ def PlotC1s(df):
     ax1.set_ylabel('Count (# electrons)')  # global
 
     # save figure
-    plt.savefig("MoO3d.svg")  # save as svg
+    plt.savefig(output+".svg")  # save as svg
 
     return

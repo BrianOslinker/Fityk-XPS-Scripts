@@ -7,17 +7,25 @@ Created on Tue Mar 16 15:17:25 2021
 """
 
 # import packages
-from ProcessData import GetXPSData
-import PlotXPSData as draw
+import tkinter as tk
+import pandas as pd
+import ProcessXPSData as xps
+
+# import data
+root = tk.Tk()
+root.withdraw()                                            # hides empty window
+df = tk.filedialog.askopenfilename(title='Select Data')    # asks user for file
+output = tk.filedialog.asksaveasfilename(title='Save As')  # asks where to save
+root.destroy()                                             # removes window
+
+# creates data frame with file
+df = pd.read_table(df, delimiter=' ')
 
 # choose data file
-df = GetXPSData()
-
-# calculates mean of Binding Energy
-mean = df['Binding Energy'].mean()
+df = xps.ProcessData(df)
 
 # checks what ploting function to call
-if mean > 260:
-    draw.PlotC1s(df)
+if df['Binding Energy'].mean() > 260:
+    xps.PlotC1s(df, output)
 else:
-    draw.PlotOther(df)
+    xps.PlotOther(df, output)
