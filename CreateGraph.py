@@ -9,31 +9,36 @@ Created on Tue Mar 16 15:17:25 2021
 # import packages
 import tkinter as tk
 from tkinter import filedialog
+from pathlib2 import Path
+import os
 import pandas as pd
 import ProcessXPSData as xps
-import os
 
 # import data
 root = tk.Tk()
 root.withdraw()                                            # hides empty window
-df = filedialog.askopenfilename(title='Select Data')       # asks user for file
-output = filedialog.asksaveasfilename(title='Save As')     # asks where to save
+directory = filedialog.askdirectory(
+    title='Select Data Folder')                            # asks user for file
+output = filedialog.askdirectory(title='Save As Folder')   # asks where to save
 root.destroy()                                             # removes window
 
-# creates data frame with file
-df = pd.read_table(df, delimiter=' ')
+pathlist = Path(directory).rglob('*.dat')
 
-# choose data file
-df = xps.ProcessData(df)
+for path in pathlist:
 
-# checks what ploting function to call
-if df['Binding Energy'].mean() > 260:
-    fig = xps.PlotC1s(df)
-else:
-    fig = xps.PlotOther(df)
+    # creates data frame with file
+    df = pd.read_table(str(path), delimiter=' ')
 
-# checks if filetype is .svg, if not saves as svg
-if os.path.splitext(output)[1] == ".svg":
-    fig.savefig(output)
-else:
-    fig.savefig(output+".svg")
+    # choose data file
+    df = xps.ProcessData(df)
+
+    # checks what ploting function to call
+    if df['Binding Energy'].mean() > 260:
+        fig = xps.PlotC1s(df)
+    else:
+        fig = xps.PlotOther(df)
+
+    # saves as .svg
+    filename = os.path.basename(str(path))
+    filename = os.path.splitext(filename)[0]
+    fig.savefig(os.path.join(output, filename+".svg"))
