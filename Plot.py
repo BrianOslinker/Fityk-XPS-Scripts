@@ -36,8 +36,8 @@ data_measured = df['Measured']
 
 x = df['Binding Energy']
 
-sns.set()
-sns.set_context('notebook') ## 'talk', 'notebook', 'poster'
+#sns.set()
+#sns.set_context('notebook') ## 'talk', 'notebook', 'poster'
 
 fig, ax1 = plt.subplots()
 ax1.invert_xaxis() 

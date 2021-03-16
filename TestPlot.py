@@ -43,8 +43,8 @@ data_c2 = df[sort.index.values[5]]
 
 x = df['Binding Energy']
 
-sns.set()
-sns.set_context('notebook') ## 'talk', 'notebook', 'poster'
+#sns.set()
+#sns.set_context('notebook') ## 'talk', 'notebook', 'poster'
 
 fig, ax1 = plt.subplots()
 ax1.invert_xaxis() 
