@@ -30,11 +30,15 @@ def GetXPSData():
     df.columns = header
 
     # rename known rows
-    df.rename(columns={0: 'Binding Energy',
+    df.rename(columns={0: 'Kenetic Energy',
                        1: 'Measured', col-1: 'Fit'}, inplace=True)
 
     # convert KE to BE
-    df['Binding Energy'] = 350 - df['Binding Energy']
+    if (df['Kenetic Energy'].mean()) < 60:                # check for Si2p case
+        df['Kenetic Energy'] = 150 - df['Kenetic Energy']
+    else:
+        df['Kenetic Energy'] = 350 - df['Kenetic Energy']
+    df.rename(columns={'Kenetic Energy': 'Binding Energy'}, inplace=True)
 
     # find binding energy of peaks
     sort = df.idxmax()               # finds index of max value for each column
