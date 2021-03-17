@@ -18,7 +18,7 @@ def ProcessData(path):
     Parameters
     ----------
     path : fityk .dat file
-        .dat file generated from fityk.
+        .dat file generated from fityk
 
     Returns
     -------
@@ -68,6 +68,8 @@ def ProcessData(path):
 
 def PlotOther(df):
 
+    color = ['black', 'orange', 'red', 'green', 'blue', 'violet']
+
     # set binding energy to x for convenience
     x = df['Binding Energy']
 
@@ -75,35 +77,56 @@ def PlotOther(df):
     data_fit = df['Fit']
     data_measured = df['Measured']
 
-    # set peak pairs
-    data_a1 = df['Peak 1']
-    data_b1 = df['Peak 2']
-    data_c1 = df['Peak 3']
-    data_a2 = df['Peak 4']
-    data_b2 = df['Peak 5']
-    data_c2 = df['Peak 6']
-
     # create figure
     fig, ax1 = plt.subplots()
     ax1.invert_xaxis()  # invert x-axis to follow XPS plot convention
     plt.tight_layout()
 
-    # plot peaks against binding energy
-    ax1.scatter(x, data_measured, color='black', marker='.', label='Measured')
-    ax1.plot(x, data_fit, color='orange', linestyle='-', label='Fit')
-    ax1.plot(x, data_a1, color='gray', linestyle='--')
-    ax1.plot(x, data_a2, color='gray', linestyle='--')
-    ax1.plot(x, data_b1, color='gray', linestyle=':')
-    ax1.plot(x, data_b2, color='gray', linestyle=':',)
-    ax1.plot(x, data_c1, color='gray', linestyle='-.')
-    ax1.plot(x, data_c2, color='gray', linestyle='-.')
+    if len(df.columns)-3 == 6:
+        # set peak pairs
+        data_a1 = df['Peak 1']
+        data_b1 = df['Peak 2']
+        data_c1 = df['Peak 3']
+        data_a2 = df['Peak 4']
+        data_b2 = df['Peak 5']
+        data_c2 = df['Peak 6']
+
+        # plot peaks against binding energy
+        ax1.scatter(x, data_measured, color=color[0],
+                    marker='.', label='Measured')
+        ax1.plot(x, data_fit, color=color[1], linestyle='-', label='Fit')
+        ax1.plot(x, data_a1, color=color[2], linestyle='--')
+        ax1.plot(x, data_a2, color=color[2], linestyle='--')
+        ax1.plot(x, data_b1, color=color[3], linestyle=':')
+        ax1.plot(x, data_b2, color=color[3], linestyle=':',)
+        ax1.plot(x, data_c1, color=color[4], linestyle='-.')
+        ax1.plot(x, data_c2, color=color[4], linestyle='-.')
+    else:
+        # set peak pairs
+        data_a1 = df['Peak 1']
+        data_b1 = df['Peak 2']
+        data_a2 = df['Peak 3']
+        data_b2 = df['Peak 4']
+
+        # plot peaks against binding energy
+        ax1.scatter(x, data_measured, color=color[0],
+                    marker='.', label='Measured')
+        ax1.plot(x, data_fit, color=color[1], linestyle='-', label='Fit')
+        ax1.plot(x, data_a1, color=color[2], linestyle='--')
+        ax1.plot(x, data_a2, color=color[2], linestyle='--')
+        ax1.plot(x, data_b1, color=color[3], linestyle=':')
+        ax1.plot(x, data_b2, color=color[3], linestyle=':',)
 
     # label Chart
     plt.legend(facecolor='w')
-    plt.title('MoO3d')
     ax1.set_xlabel('Binding Energy (eV)')  # global
     ax1.set_ylabel('Count (# electrons)')  # global
     plt.tight_layout()
+
+    if df['Binding Energy'].mean() > 225:
+        plt.title("MoO3d")
+    else:
+        plt.title("Si2p")
 
     return plt
 
@@ -129,12 +152,12 @@ def PlotC1s(df):
     plt.tight_layout()
 
     # plot peaks against binding energy
-    ax1.scatter(x, data_measured, color='black', marker='.', label='Measured')
+    ax1.scatter(x, data_measured, color='black', marker='o', label='Measured')
     ax1.plot(x, data_fit, color='orange', linestyle='-', label='Fit')
-    ax1.plot(x, data_a, color='gray', linestyle='--')
-    ax1.plot(x, data_b, color='gray', linestyle='-')
-    ax1.plot(x, data_c, color='gray', linestyle=':')
-    ax1.plot(x, data_d, color='gray', linestyle='-.')
+    ax1.plot(x, data_a, color='red', linestyle='--')
+    ax1.plot(x, data_b, color='green', linestyle='-')
+    ax1.plot(x, data_c, color='blue', linestyle=':')
+    ax1.plot(x, data_d, color='violet', linestyle='-.')
 
     # label Chart
     plt.legend(facecolor='w')
