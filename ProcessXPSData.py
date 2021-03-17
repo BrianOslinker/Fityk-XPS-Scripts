@@ -8,9 +8,28 @@ Created on Tue Mar 16 14:38:30 2021
 
 # import packages
 from matplotlib import pyplot as plt
+import pandas as pd
 
 
-def ProcessData(df):
+def ProcessData(path):
+    """
+    Take a fityk .dat file and return a dataframe sorted by binding energy.
+
+    Parameters
+    ----------
+    path : fityk .dat file
+        .dat file generated from fityk.
+
+    Returns
+    -------
+    df : dataframe
+        returns a dataframe in the
+        format [Binding Energy, Sum of Fuctions (Fit), Measured Values,
+                Peak 1 (lowest BE), ..., Peak n (highest BE)]
+
+    """
+    # creates dataframe from .dat file
+    df = pd.read_table(str(path), delimiter=' ')
 
     # find size
     col = len(df.columns)
@@ -84,6 +103,7 @@ def PlotOther(df):
     plt.title('MoO3d')
     ax1.set_xlabel('Binding Energy (eV)')  # global
     ax1.set_ylabel('Count (# electrons)')  # global
+    plt.tight_layout()
 
     return plt
 
@@ -97,7 +117,7 @@ def PlotC1s(df):
     data_fit = df['Fit']
     data_measured = df['Measured']
 
-    # set peak pairs
+    # set peaks
     data_a = df['Peak 1']
     data_b = df['Peak 2']
     data_c = df['Peak 3']
@@ -114,12 +134,13 @@ def PlotC1s(df):
     ax1.plot(x, data_a, color='gray', linestyle='--')
     ax1.plot(x, data_b, color='gray', linestyle='-')
     ax1.plot(x, data_c, color='gray', linestyle=':')
-    ax1.plot(x, data_d, color='gray', linestyle='-.',)
+    ax1.plot(x, data_d, color='gray', linestyle='-.')
 
     # label Chart
     plt.legend(facecolor='w')
     plt.title('MoO3d')
     ax1.set_xlabel('Binding Energy (eV)')  # global
     ax1.set_ylabel('Count (# electrons)')  # global
+    plt.tight_layout()
 
     return plt
