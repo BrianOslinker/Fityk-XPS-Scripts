@@ -165,3 +165,48 @@ def PlotC1s(df):
     plt.tight_layout()
 
     return plt
+
+
+def PlotC1sTest(df):
+    plt.rcParams.update({
+        "text.usetex": True,
+        "font.family": "sans-serif",
+        "font.sans-serif": ["Helvetica"]})
+    # set binding energy to x for convenience
+
+    x = df['Binding Energy']
+
+    # set fit and measured
+    data_fit = df['Fit']
+    data_measured = df['Measured']
+
+    # set peaks
+    data_a = df['Peak 1']
+    data_b = df['Peak 2']
+    data_c = df['Peak 3']
+    data_d = df['Peak 4']
+
+    with plt.style.context(['science', 'no-latex']):
+
+        # create figure
+        fig, ax1 = plt.subplots()
+        ax1.invert_xaxis()  # invert x-axis to follow XPS plot convention
+        plt.tight_layout()
+        ax1.figsize = (8.5, 4)
+
+        # plot peaks against binding energy
+        ax1.plot(x, data_measured, 'o', label='Data')
+        ax1.plot(x, data_fit, label='Sum')
+        ax1.plot(x, data_a, linestyle='--', label='Peak A')
+        ax1.plot(x, data_b, linestyle='-', label='Peak B')
+        ax1.plot(x, data_c, linestyle=':', label='Peak C')
+        ax1.plot(x, data_d, linestyle='-.', label='Peak D')
+
+        # label Chart
+        plt.legend(bbox_to_anchor=(1.04, 1), loc="upper left")
+        plt.title('C1s')
+        ax1.set_xlabel('Binding Energy (eV)')  # global
+        ax1.set_ylabel('Count (# electrons)')  # global
+        plt.tight_layout()
+
+    return plt

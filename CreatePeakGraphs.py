@@ -36,7 +36,7 @@ for path in pathlist:
     currently only works for C1s, MoO3d, and Si2p core levels
     """
     if df['Binding Energy'].mean() > 260:
-        fig = xps.PlotC1s(df)
+        fig = xps.PlotC1sTest(df)
     else:
         fig = xps.PlotOther(df)
 
