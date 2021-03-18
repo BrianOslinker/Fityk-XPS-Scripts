@@ -92,7 +92,7 @@ def PlotOther(df):
         data_c2 = df['Peak 6']
 
         # plot peaks against binding energy
-        ax1.scatter(x, data_measured, color=color[0], marker='.')
+        ax1.plot(x, data_measured, 'o', color=color[0])
         ax1.plot(x, data_fit, color=color[1], linestyle='-')
         ax1.plot(x, data_a1, color=color[2], linestyle='--', label='Doublet A')
         ax1.plot(x, data_a2, color=color[2], linestyle='--')
@@ -108,7 +108,7 @@ def PlotOther(df):
         data_b2 = df['Peak 4']
 
         # plot peaks against binding energy
-        ax1.scatter(x, data_measured, color=color[0], marker='.')
+        ax1.plot(x, data_measured, 'o', color=color[0])
         ax1.plot(x, data_fit, color=color[1], linestyle='-')
         ax1.plot(x, data_a1, color=color[2], linestyle='--', label='Doublet A')
         ax1.plot(x, data_a2, color=color[2], linestyle='--')
@@ -116,7 +116,7 @@ def PlotOther(df):
         ax1.plot(x, data_b2, color=color[3], linestyle=':',)
 
     # label Chart
-    plt.legend(bbox_to_anchor=(1.04, 1), loc="upper left", facecolor='w')
+    plt.legend(bbox_to_anchor=(1.04, 1), loc="upper left")
     ax1.set_xlabel('Binding Energy (eV)')  # global
     ax1.set_ylabel('Count (# electrons)')  # global
     plt.tight_layout()
@@ -150,17 +150,14 @@ def PlotC1s(df):
     plt.tight_layout()
 
     # plot peaks against binding energy
-    im1 = ax1.scatter(x, data_measured, color='black',
-                      marker='o', label='Data')
-    im2 = ax1.plot(x, data_fit, color='orange', linestyle='-', label='Sum')
-    im3 = ax1.plot(x, data_a, color='red', linestyle='--', label='Peak A')
-    im4 = ax1.plot(x, data_b, color='green', linestyle='-', label='Peak B')
-    im5 = ax1.plot(x, data_c, color='blue', linestyle=':', label='Peak C')
-    im6 = ax1.plot(x, data_d, color='violet', linestyle='-.', label='Peak D')
+    ax1.plot(x, data_measured, 'o', color='black', label='Data')
+    ax1.plot(x, data_fit, color='orange', linestyle='-', label='Sum')
+    ax1.plot(x, data_a, color='red', linestyle='--', label='Peak A')
+    ax1.plot(x, data_b, color='green', linestyle='-', label='Peak B')
+    ax1.plot(x, data_c, color='blue', linestyle=':', label='Peak C')
+    ax1.plot(x, data_d, color='violet', linestyle='-.', label='Peak D')
 
-    #handles, labels = ax1.get_legend_handles_labels()
     # label Chart
-    #ax1.legend(handles=[im1, im2, im3, im4, im5, im6])
     plt.legend(bbox_to_anchor=(1.04, 1), loc="upper left")
     plt.title('C1s')
     ax1.set_xlabel('Binding Energy (eV)')  # global
