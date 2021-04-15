@@ -7,6 +7,7 @@ Created on Tue Mar 16 14:38:30 2021
 """
 
 # import packages
+import matplotlib
 from matplotlib import pyplot as plt
 import pandas as pd
 
@@ -92,7 +93,7 @@ def PlotOther(df):
         data_c2 = df['Peak 6']
 
         # plot peaks against binding energy
-        ax1.plot(x, data_measured, 'o', color=color[0])
+        ax1.plot(x, data_measured, '.', color=color[0])
         ax1.plot(x, data_fit, color=color[1], linestyle='-')
         ax1.plot(x, data_a1, color=color[2], linestyle='--', label='Doublet A')
         ax1.plot(x, data_a2, color=color[2], linestyle='--')
@@ -100,6 +101,20 @@ def PlotOther(df):
         ax1.plot(x, data_b2, color=color[3], linestyle=':',)
         ax1.plot(x, data_c1, color=color[4], linestyle='-.', label='Doublet C')
         ax1.plot(x, data_c2, color=color[4], linestyle='-.')
+    elif 99 < df['Binding Energy'].mean() < 102:
+        # set peak pairs
+        data_a1 = df['Peak 1']
+        data_a2 = df['Peak 2']
+        data_b1 = df['Peak 3']
+        data_b2 = df['Peak 4']
+
+        # plot peaks against binding energy
+        ax1.plot(x, data_measured, '.', color=color[0])
+        ax1.plot(x, data_fit, color=color[1], linestyle='-')
+        ax1.plot(x, data_a1, color=color[2], linestyle='--', label='Doublet A')
+        ax1.plot(x, data_a2, color=color[2], linestyle='--')
+        ax1.plot(x, data_b1, color=color[3], linestyle=':', label='Doublet B')
+        ax1.plot(x, data_b2, color=color[3], linestyle=':',)
     else:
         # set peak pairs
         data_a1 = df['Peak 1']
@@ -108,7 +123,7 @@ def PlotOther(df):
         data_b2 = df['Peak 4']
 
         # plot peaks against binding energy
-        ax1.plot(x, data_measured, 'o', color=color[0])
+        ax1.plot(x, data_measured, '.', color=color[0])
         ax1.plot(x, data_fit, color=color[1], linestyle='-')
         ax1.plot(x, data_a1, color=color[2], linestyle='--', label='Doublet A')
         ax1.plot(x, data_a2, color=color[2], linestyle='--')
@@ -150,7 +165,7 @@ def PlotC1s(df):
     plt.tight_layout()
 
     # plot peaks against binding energy
-    ax1.plot(x, data_measured, 'o', color='black', label='Data')
+    ax1.plot(x, data_measured, '.', color='black', label='Data')
     ax1.plot(x, data_fit, color='orange', linestyle='-', label='Sum')
     ax1.plot(x, data_a, color='red', linestyle='--', label='Peak A')
     ax1.plot(x, data_b, color='green', linestyle='-', label='Peak B')
@@ -168,10 +183,10 @@ def PlotC1s(df):
 
 
 def PlotC1sTest(df):
-    plt.rcParams.update({
-        "text.usetex": True,
-        "font.family": "sans-serif",
-        "font.sans-serif": ["Helvetica"]})
+    # plt.rcParams.update({
+    #    text.usetex: True,
+    #    font.family": "sans-serif,
+    #    font.sans-serif: ["Helvetica"]})
     # set binding energy to x for convenience
 
     x = df['Binding Energy']
@@ -186,7 +201,8 @@ def PlotC1sTest(df):
     data_c = df['Peak 3']
     data_d = df['Peak 4']
 
-    with plt.style.context(['science', 'no-latex']):
+    #with plt.style.context(['high-vis', 'bright', 'no-latex']):
+    with plt.style.context(['seaborne-colorblind']):
 
         # create figure
         fig, ax1 = plt.subplots()
@@ -195,7 +211,7 @@ def PlotC1sTest(df):
         ax1.figsize = (8.5, 4)
 
         # plot peaks against binding energy
-        ax1.plot(x, data_measured, 'o', label='Data')
+        ax1.plot(x, data_measured, '.', label='Data')
         ax1.plot(x, data_fit, label='Sum')
         ax1.plot(x, data_a, linestyle='--', label='Peak A')
         ax1.plot(x, data_b, linestyle='-', label='Peak B')
