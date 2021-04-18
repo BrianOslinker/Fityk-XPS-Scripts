@@ -9,6 +9,7 @@ Created on Tue Mar 16 14:38:30 2021
 # import packages
 from matplotlib import pyplot as plt
 import pandas as pd
+import seaborn as sns
 
 
 def ProcessData(path):
@@ -66,102 +67,123 @@ def ProcessData(path):
     return df
 
 
-def PlotOther(df):
+def Plot(df):
 
-    color = ['black', 'orange', 'red', 'green', 'blue', 'violet']
+    # color = ['black', 'orange', 'red', 'green', 'blue', 'violet']
+    with plt.style.context(['seaborn-colorblind']):
+        # set binding energy to x for convenience
+        x = df['Binding Energy']
 
-    # set binding energy to x for convenience
-    x = df['Binding Energy']
+        color = sns.color_palette("colorblind", 6)
 
-    # set fit and measured
-    data_fit = df['Fit']
-    data_measured = df['Measured']
+        # print(color[:])
 
-    # create figure
-    fig, ax1 = plt.subplots()
-    ax1.invert_xaxis()  # invert x-axis to follow XPS plot convention
-    plt.tight_layout()
+        # set fit and measured
+        data_fit = df['Fit']
+        data_measured = df['Measured']
 
-    if len(df.columns)-3 == 6:
-        # set peak pairs
-        data_a1 = df['Peak 1']
-        data_b1 = df['Peak 2']
-        data_c1 = df['Peak 3']
-        data_a2 = df['Peak 4']
-        data_b2 = df['Peak 5']
-        data_c2 = df['Peak 6']
+        # create figure
+        fig, ax1 = plt.subplots()
+        ax1.invert_xaxis()  # invert x-axis to follow XPS plot convention
+        plt.tight_layout()
 
-        # plot peaks against binding energy
-        ax1.plot(x, data_measured, 'o', color=color[0])
-        ax1.plot(x, data_fit, color=color[1], linestyle='-')
-        ax1.plot(x, data_a1, color=color[2], linestyle='--', label='Doublet A')
-        ax1.plot(x, data_a2, color=color[2], linestyle='--')
-        ax1.plot(x, data_b1, color=color[3], linestyle=':', label='Doublet B')
-        ax1.plot(x, data_b2, color=color[3], linestyle=':',)
-        ax1.plot(x, data_c1, color=color[4], linestyle='-.', label='Doublet C')
-        ax1.plot(x, data_c2, color=color[4], linestyle='-.')
-    else:
-        # set peak pairs
-        data_a1 = df['Peak 1']
-        data_b1 = df['Peak 2']
-        data_a2 = df['Peak 3']
-        data_b2 = df['Peak 4']
+        if len(df.columns)-3 == 6:
+            # set peak pairs
+            if df['Binding Energy'].mean() > 110:
+                # set peak pairs
+                data_a1 = df['Peak 1']
+                data_b1 = df['Peak 2']
+                data_c1 = df['Peak 3']
+                data_a2 = df['Peak 4']
+                data_b2 = df['Peak 5']
+                data_c2 = df['Peak 6']
 
-        # plot peaks against binding energy
-        ax1.plot(x, data_measured, 'o', color=color[0])
-        ax1.plot(x, data_fit, color=color[1], linestyle='-')
-        ax1.plot(x, data_a1, color=color[2], linestyle='--', label='Doublet A')
-        ax1.plot(x, data_a2, color=color[2], linestyle='--')
-        ax1.plot(x, data_b1, color=color[3], linestyle=':', label='Doublet B')
-        ax1.plot(x, data_b2, color=color[3], linestyle=':',)
+                doublet_a = 'Doublet A'
+                doublet_b = 'Doublet B'
+                doublet_c = 'Doublet C'
 
-    # label Chart
-    plt.legend(bbox_to_anchor=(1.04, 1), loc="upper left")
-    ax1.set_xlabel('Binding Energy (eV)')  # global
-    ax1.set_ylabel('Count (# electrons)')  # global
-    plt.tight_layout()
+                color_a = color[1]
+                color_b = color[2]
+                color_c = color[3]
 
-    if df['Binding Energy'].mean() > 225:
-        plt.title("MoO3d")
-    else:
-        plt.title("Si2p")
+            else:
+                # set Peak Pairs
+                data_a1 = df['Peak 1']
+                data_a2 = df['Peak 2']
+                data_b1 = df['Peak 3']
+                data_b2 = df['Peak 4']
+                data_c1 = df['Peak 5']
+                data_c2 = df['Peak 6']
 
-    return plt
+                doublet_a = 'Si2'
+                doublet_b = 'Si1'
+                doublet_c = 'Si0'
 
+                color_a = color[3]
+                color_b = color[1]
+                color_c = color[2]
 
-def PlotC1s(df):
+            # plot peaks against binding energy
+            ax1.plot(x, data_measured, '.', color='black')
+            ax1.plot(x, data_fit, color=color[0], linestyle='-')
+            ax1.plot(x, data_a1, color=color_a,
+                     linestyle='--', label=doublet_a)
+            ax1.plot(x, data_a2, color=color_a, linestyle='--')
+            ax1.plot(x, data_b1, color=color_b,
+                     linestyle=':', label=doublet_b)
+            ax1.plot(x, data_b2, color=color_b, linestyle=':',)
+            ax1.plot(x, data_c1, color=color_c,
+                     linestyle='-.', label=doublet_c)
+            ax1.plot(x, data_c2, color=color_c, linestyle='-.')
+        elif df['Binding Energy'].mean() > 200:
+            data_a = df['Peak 1']
+            data_b = df['Peak 2']
+            data_c = df['Peak 3']
+            data_d = df['Peak 4']
 
-    # set binding energy to x for convenience
-    x = df['Binding Energy']
+            ax1.plot(x, data_measured, '.', color='black')
+            ax1.plot(x, data_fit, linestyle='-', color=color[0])
+            ax1.plot(x, data_a, linestyle='--', color=color[1], label='B*')
+            ax1.plot(x, data_b, linestyle=':', color=color[2], label='Bulk')
+            ax1.plot(x, data_c, linestyle='-.', color=color[3], label='B1')
+            ax1.plot(x, data_d, linestyle='-', color=color[4], label='B2')
 
-    # set fit and measured
-    data_fit = df['Fit']
-    data_measured = df['Measured']
+        elif 99 < df['Binding Energy'].mean() < 102:
+            # set peak pairs
+            data_a1 = df['Peak 1']
+            data_a2 = df['Peak 2']
+            data_b1 = df['Peak 3']
+            data_b2 = df['Peak 4']
 
-    # set peaks
-    data_a = df['Peak 1']
-    data_b = df['Peak 2']
-    data_c = df['Peak 3']
-    data_d = df['Peak 4']
+            # plot peaks against binding energy
+            ax1.plot(x, data_measured, '.', color='black')
+            ax1.plot(x, data_fit, color=color[0], linestyle='-')
+            ax1.plot(x, data_a1, color=color[1],
+                     linestyle='--', label='Si1')
+            ax1.plot(x, data_a2, color=color[1], linestyle='--')
+            ax1.plot(x, data_b1, color=color[2],
+                     linestyle=':', label='Si2')
+            ax1.plot(x, data_b2, color=color[2], linestyle=':',)
+        else:
+            # set peak pairs
+            data_a1 = df['Peak 1']
+            data_b1 = df['Peak 2']
+            data_a2 = df['Peak 3']
+            data_b2 = df['Peak 4']
 
-    # create figure
-    fig, ax1 = plt.subplots()
-    ax1.invert_xaxis()  # invert x-axis to follow XPS plot convention
-    plt.tight_layout()
+            # plot peaks against binding energy
+            ax1.plot(x, data_measured, '.', color='black')
+            ax1.plot(x, data_fit, color=color[0], linestyle='-')
+            ax1.plot(x, data_a1, color=color[1],
+                     linestyle='--', label='Doublet A')
+            ax1.plot(x, data_a2, color=color[1], linestyle='--')
+            ax1.plot(x, data_b1, color=color[2],
+                     linestyle=':', label='Doublet B')
+            ax1.plot(x, data_b2, color=color[2], linestyle=':',)
 
-    # plot peaks against binding energy
-    ax1.plot(x, data_measured, 'o', color='black', label='Data')
-    ax1.plot(x, data_fit, color='orange', linestyle='-', label='Sum')
-    ax1.plot(x, data_a, color='red', linestyle='--', label='Peak A')
-    ax1.plot(x, data_b, color='green', linestyle='-', label='Peak B')
-    ax1.plot(x, data_c, color='blue', linestyle=':', label='Peak C')
-    ax1.plot(x, data_d, color='violet', linestyle='-.', label='Peak D')
-
-    # label Chart
-    plt.legend(bbox_to_anchor=(1.04, 1), loc="upper left")
-    plt.title('C1s')
-    ax1.set_xlabel('Binding Energy (eV)')  # global
-    ax1.set_ylabel('Count (# electrons)')  # global
-    plt.tight_layout()
+        # label Chart
+        plt.legend(loc="upper right")
+        ax1.set_xlabel('Binding Energy (eV)')  # global
+        ax1.set_ylabel('Count (# electrons)')  # global
 
     return plt
