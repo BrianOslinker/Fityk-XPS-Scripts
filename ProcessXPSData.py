@@ -67,6 +67,11 @@ def ProcessData(path):
     return df
 
 
+'''
+Depreciated
+
+
+
 def PlotC1sSeaborn(df):
     x = df['Binding Energy']
 
@@ -103,9 +108,10 @@ def PlotC1sSeaborn(df):
         ax1.set_ylabel('Count (# electrons)')  # global
 
     return plt
+'''
 
 
-def PlotOtherSeaborn(df):
+def Plot(df):
 
     # color = ['black', 'orange', 'red', 'green', 'blue', 'violet']
     with plt.style.context(['seaborn-colorblind']):
@@ -173,6 +179,19 @@ def PlotOtherSeaborn(df):
             ax1.plot(x, data_c1, color=color_c,
                      linestyle='-.', label=doublet_c)
             ax1.plot(x, data_c2, color=color_c, linestyle='-.')
+        elif df['Binding Energy'].mean() > 200:
+            data_a = df['Peak 1']
+            data_b = df['Peak 2']
+            data_c = df['Peak 3']
+            data_d = df['Peak 4']
+
+            ax1.plot(x, data_measured, '.', color='black')
+            ax1.plot(x, data_fit, linestyle='-', color=color[0])
+            ax1.plot(x, data_a, linestyle='--', color=color[1], label='B*')
+            ax1.plot(x, data_b, linestyle=':', color=color[2], label='Bulk')
+            ax1.plot(x, data_c, linestyle='-.', color=color[3], label='B1')
+            ax1.plot(x, data_d, linestyle='-', color=color[4], label='B2')
+
         elif 99 < df['Binding Energy'].mean() < 102:
             # set peak pairs
             data_a1 = df['Peak 1']
