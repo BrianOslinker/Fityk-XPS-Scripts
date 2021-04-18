@@ -67,50 +67,6 @@ def ProcessData(path):
     return df
 
 
-'''
-Depreciated
-
-
-
-def PlotC1sSeaborn(df):
-    x = df['Binding Energy']
-
-    # set fit and measured
-    data_fit = df['Fit']
-    data_measured = df['Measured']
-
-    # set peaks
-    data_a = df['Peak 1']
-    data_b = df['Peak 2']
-    data_c = df['Peak 3']
-    data_d = df['Peak 4']
-
-    # with plt.style.context(['high-vis', 'bright', 'no-latex']):
-    with plt.style.context(['seaborn-colorblind']):
-
-        color = sns.color_palette("colorblind", 6)
-
-        # create figure
-        fig, ax1 = plt.subplots()
-        ax1.invert_xaxis()  # invert x-axis to follow XPS plot convention
-
-        # plot peaks against binding energy
-        ax1.plot(x, data_measured, '.', color='black')
-        ax1.plot(x, data_fit, linestyle='-', color=color[0])
-        ax1.plot(x, data_a, linestyle='--', color=color[1], label='B*')
-        ax1.plot(x, data_b, linestyle=':', color=color[2], label='Bulk')
-        ax1.plot(x, data_c, linestyle='-.', color=color[3], label='B1')
-        ax1.plot(x, data_d, linestyle='-', color=color[4], label='B2')
-
-        # label Chart
-        plt.legend(loc="upper right")
-        ax1.set_xlabel('Binding Energy (eV)')  # global
-        ax1.set_ylabel('Count (# electrons)')  # global
-
-    return plt
-'''
-
-
 def Plot(df):
 
     # color = ['black', 'orange', 'red', 'green', 'blue', 'violet']
