@@ -68,12 +68,6 @@ def ProcessData(path):
 
 
 def PlotC1sSeaborn(df):
-    # plt.rcParams.update({
-    #    text.usetex: True,
-    #    font.family": "sans-serif,
-    #    font.sans-serif: ["Helvetica"]})
-    # set binding energy to x for convenience
-
     x = df['Binding Energy']
 
     # set fit and measured
@@ -94,8 +88,6 @@ def PlotC1sSeaborn(df):
         # create figure
         fig, ax1 = plt.subplots()
         ax1.invert_xaxis()  # invert x-axis to follow XPS plot convention
-        plt.tight_layout()
-        ax1.figsize = (8.5, 4)
 
         # plot peaks against binding energy
         ax1.plot(x, data_measured, '.', color='black')
@@ -106,12 +98,9 @@ def PlotC1sSeaborn(df):
         ax1.plot(x, data_d, linestyle='-', color=color[4], label='B2')
 
         # label Chart
-        plt.legend(bbox_to_anchor=(1.04, 1), loc="upper left")
-#        plt.legend(bbox_to_anchor=(1.04, 1), loc="upper left")
-#        plt.title('C1s')
+        plt.legend(loc="upper right")
         ax1.set_xlabel('Binding Energy (eV)')  # global
         ax1.set_ylabel('Count (# electrons)')  # global
-        plt.tight_layout()
 
     return plt
 
@@ -219,9 +208,7 @@ def PlotOtherSeaborn(df):
 
         # label Chart
         plt.legend(loc="upper right")
-        # plt.legend(bbox_to_anchor=(1.04, 1), loc="upper left")
         ax1.set_xlabel('Binding Energy (eV)')  # global
         ax1.set_ylabel('Count (# electrons)')  # global
-        plt.tight_layout()
 
     return plt

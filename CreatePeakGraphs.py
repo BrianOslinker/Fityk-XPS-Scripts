@@ -46,5 +46,6 @@ for path in pathlist:
     filename = os.path.splitext(filename)[0]        # removes .dat from file
 
     plt.title(filename)     # gives the plot the same title as the filename
+    plt.tight_layout()
 
     fig.savefig(os.path.join(output, filename + ".svg"))  # saves as svg
