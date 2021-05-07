@@ -115,9 +115,11 @@ def Plot(df):
                 data_c1 = df['Peak 5']
                 data_c2 = df['Peak 6']
 
-                doublet_a = 'Si2'
-                doublet_b = 'Si1'
-                doublet_c = 'Si0'
+                axis_size = [105, 99]
+
+                doublet_a = 'Si3'
+                doublet_b = 'Si2'
+                doublet_c = 'Si1'
 
                 color_a = color[3]
                 color_b = color[1]
@@ -141,6 +143,8 @@ def Plot(df):
             data_c = df['Peak 3']
             data_d = df['Peak 4']
 
+            axis_size = [287, 281]
+
             ax1.plot(x, data_measured, '.', color='black')
             ax1.plot(x, data_fit, linestyle='-', color=color[0])
             ax1.plot(x, data_a, linestyle='--', color=color[1], label='B*')
@@ -154,6 +158,8 @@ def Plot(df):
             data_a2 = df['Peak 2']
             data_b1 = df['Peak 3']
             data_b2 = df['Peak 4']
+
+            axis_size = [104, 95]
 
             # plot peaks against binding energy
             ax1.plot(x, data_measured, '.', color='black')
@@ -185,5 +191,11 @@ def Plot(df):
         plt.legend(loc="upper right")
         ax1.set_xlabel('Binding Energy (eV)')  # global
         ax1.set_ylabel('Count (# electrons)')  # global
+        ax1.set_yticklabels([])
+
+        # if axis_size is not None:
+        # set the xlim to left, right
+        plt.xlim(axis_size[0], axis_size[1])
+#        plt.xlim(287, 281)
 
     return plt
