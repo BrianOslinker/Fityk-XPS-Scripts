@@ -22,9 +22,22 @@ output = filedialog.askdirectory(
     title='Select Save Folder')                           # asks where to save
 root.destroy()
 
-df = pd.read_csv(file, names=['x', 'y'])
+# set line styles
+line = ['-', '--', ':', '-.']
 
-df['x'] = 350 - df['x']
+# read file
+df = pd.read_csv(file)
+
+# find size
+col = int(len(df.columns)/2)
+
+# change to binding energy
+if df['x1'].mean() < 60:
+    for i in range(1, col):
+        df['x'+str(i)] = 150 - df['x'+str(i)]
+else:
+    for i in range(1, col):
+        df['x'+str(i)] = 350 - df['x'+str(i)]
 
 with plt.style.context(['seaborn-colorblind']):
 
@@ -33,16 +46,25 @@ with plt.style.context(['seaborn-colorblind']):
 #    ax1.invert_xaxis()  # invert x-axis to follow XPS plot convention
 
     # plot peaks against binding energy
-    ax1.plot(df['x'], df['y'])
+    for i in range(1, col):
+        ax1.plot(df['x'+str(i)], df['y'+str(i)], linestyle=line[(i % 4)-1])
+
     ax1.invert_xaxis()  # invert x-axis to follow XPS plot convention
 
     # label Chart
     # plt.legend(bbox_to_anchor=(1.04, 1), loc="upper left")
-    plt.title('C1s Waterfall')
+
     ax1.set_xlabel('Binding Energy')  # global
     ax1.set_ylabel('Count (# electrons)')  # global
     ax1.set_yticklabels([])  # remove numbers from y axis
-    plt.xlim(287, 281)
+
+    if df['x1'].mean() > 240:
+        plt.title('C1s Waterfall')
+        plt.xlim(287, 281)
+    else:
+        plt.title('Si2p Waterfall')
+        plt.xlim(106, 98)
+
     plt.tight_layout()
 
 # saves as .svg with same name as the .dat file

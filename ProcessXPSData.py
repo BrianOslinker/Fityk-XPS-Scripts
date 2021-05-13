@@ -98,9 +98,9 @@ def Plot(df):
                 data_b2 = df['Peak 5']
                 data_c2 = df['Peak 6']
 
-                doublet_a = 'Mo6+'
-                doublet_b = 'Mo5+'
-                doublet_c = 'Mo4+'
+                doublet_a = 'Mo$^{6+}$'
+                doublet_b = 'Mo$^{5+}$'
+                doublet_c = 'Mo$^{4+}$'
 
                 axis_size = [241, 227]
 
@@ -117,11 +117,11 @@ def Plot(df):
                 data_c1 = df['Peak 5']
                 data_c2 = df['Peak 6']
 
-                axis_size = [105, 99]
+                axis_size = [106, 98]
 
-                doublet_a = 'C(2x1)'
-                doublet_b = 'Bulk (Si)'
-                doublet_c = 'Si1'
+                doublet_a = 'Si$^{3+}$'
+                doublet_b = 'Si$^{2+}$'
+                doublet_c = 'Si$^{1+}$'
 
                 color_a = color[1]
                 color_b = color[2]
@@ -148,11 +148,14 @@ def Plot(df):
             axis_size = [287, 281]
 
             ax1.plot(x, data_measured, '.', color='black', label='Data')
-            ax1.plot(x, data_fit, linestyle='-', color=color[0], label='Fit')
-            ax1.plot(x, data_a, linestyle='--', color=color[1], label='B*')
+            ax1.plot(x, data_fit, linestyle='-', color=color[0], label='Sum')
+            ax1.plot(x, data_a, linestyle='--',
+                     color=color[1], label='B$_{(2x1)}$')
             ax1.plot(x, data_b, linestyle=':', color=color[2], label='Bulk')
-            ax1.plot(x, data_c, linestyle='-.', color=color[3], label='B1')
-            ax1.plot(x, data_d, linestyle='-', color=color[4], label='B2')
+            ax1.plot(x, data_c, linestyle='-.',
+                     color=color[3], label='C$_{Si1}$')
+            ax1.plot(x, data_d, linestyle='-',
+                     color=color[4], label='C$_{Si2}$')
 
         elif 99 < df['Binding Energy'].mean() < 102:
             # set peak pairs
@@ -161,17 +164,17 @@ def Plot(df):
             data_b1 = df['Peak 3']
             data_b2 = df['Peak 4']
 
-            axis_size = [104, 95]
+            axis_size = [106, 98]
 
             # plot peaks against binding energy
-            ax1.plot(x, data_measured, '.', color='black')
-            ax1.plot(x, data_fit, color=color[0], linestyle='-')
-            ax1.plot(x, data_a1, color=color[1],
-                     linestyle='--', label='Si1')
-            ax1.plot(x, data_a2, color=color[1], linestyle='--')
-            ax1.plot(x, data_b1, color=color[2],
-                     linestyle=':', label='Si2')
-            ax1.plot(x, data_b2, color=color[2], linestyle=':',)
+            ax1.plot(x, data_measured, '.', color='black', label='Data')
+            ax1.plot(x, data_fit, color=color[0], linestyle='-', label='Sum')
+            ax1.plot(x, data_a1, color=color[2],
+                     linestyle=':', label='Si$^{2+}$')
+            ax1.plot(x, data_a2, color=color[2], linestyle=':')
+            ax1.plot(x, data_b1, color=color[3],
+                     linestyle='-.', label='Si$^{1+}$')
+            ax1.plot(x, data_b2, color=color[3], linestyle='-.',)
         else:
             # set peak pairs
             data_a1 = df['Peak 1']
@@ -182,13 +185,13 @@ def Plot(df):
             axis_size = [241, 227]
 
             # plot peaks against binding energy
-            ax1.plot(x, data_measured, '.', color='black')
-            ax1.plot(x, data_fit, color=color[0], linestyle='-')
+            ax1.plot(x, data_measured, '.', color='black', label='Data')
+            ax1.plot(x, data_fit, color=color[0], linestyle='-', label='Sum')
             ax1.plot(x, data_a1, color=color[1],
-                     linestyle='--', label='Doublet A')
+                     linestyle='--', label='Mo$^{6+}$')
             ax1.plot(x, data_a2, color=color[1], linestyle='--')
             ax1.plot(x, data_b1, color=color[2],
-                     linestyle=':', label='Doublet B')
+                     linestyle=':', label='Mo$^{5+}$')
             ax1.plot(x, data_b2, color=color[2], linestyle=':',)
 
         # label Chart
@@ -203,4 +206,5 @@ def Plot(df):
         plt.xlim(axis_size[0], axis_size[1])
 #        plt.xlim(287, 281)
 
+    return plt
     return plt

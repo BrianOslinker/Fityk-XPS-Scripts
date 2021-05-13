@@ -35,7 +35,7 @@ with plt.style.context(['seaborn-colorblind']):
     #ax1.plot(df['x'], df['y'], 'o', color=color)
 
     ax1.errorbar(df['x'], df['y'], yerr=0.025,
-                 fmt='o', capsize=5, color='black')
+                 fmt='o', capsize=2, color='black')
 
     ax1.plot(df['x'], df['y'], linestyle='--')
 
