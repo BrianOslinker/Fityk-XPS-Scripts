@@ -98,9 +98,11 @@ def Plot(df):
                 data_b2 = df['Peak 5']
                 data_c2 = df['Peak 6']
 
-                doublet_a = 'Doublet A'
-                doublet_b = 'Doublet B'
-                doublet_c = 'Doublet C'
+                doublet_a = 'Mo$^{6+}$'
+                doublet_b = 'Mo$^{5+}$'
+                doublet_c = 'Mo$^{4+}$'
+
+                axis_size = [241, 227]
 
                 color_a = color[1]
                 color_b = color[2]
@@ -115,17 +117,19 @@ def Plot(df):
                 data_c1 = df['Peak 5']
                 data_c2 = df['Peak 6']
 
-                doublet_a = 'Si2'
-                doublet_b = 'Si1'
-                doublet_c = 'Si0'
+                axis_size = [106, 98]
 
-                color_a = color[3]
-                color_b = color[1]
-                color_c = color[2]
+                doublet_a = 'Si$^{3+}$'
+                doublet_b = 'Si$^{2+}$'
+                doublet_c = 'Si$^{1+}$'
+
+                color_a = color[1]
+                color_b = color[2]
+                color_c = color[3]
 
             # plot peaks against binding energy
-            ax1.plot(x, data_measured, '.', color='black')
-            ax1.plot(x, data_fit, color=color[0], linestyle='-')
+            ax1.plot(x, data_measured, '.', color='black', label='Data')
+            ax1.plot(x, data_fit, color=color[0], linestyle='-', label='Sum')
             ax1.plot(x, data_a1, color=color_a,
                      linestyle='--', label=doublet_a)
             ax1.plot(x, data_a2, color=color_a, linestyle='--')
@@ -135,18 +139,23 @@ def Plot(df):
             ax1.plot(x, data_c1, color=color_c,
                      linestyle='-.', label=doublet_c)
             ax1.plot(x, data_c2, color=color_c, linestyle='-.')
-        elif df['Binding Energy'].mean() > 200:
+        elif df['Binding Energy'].mean() > 240:
             data_a = df['Peak 1']
             data_b = df['Peak 2']
             data_c = df['Peak 3']
             data_d = df['Peak 4']
 
-            ax1.plot(x, data_measured, '.', color='black')
-            ax1.plot(x, data_fit, linestyle='-', color=color[0])
-            ax1.plot(x, data_a, linestyle='--', color=color[1], label='B*')
+            axis_size = [287, 281]
+
+            ax1.plot(x, data_measured, '.', color='black', label='Data')
+            ax1.plot(x, data_fit, linestyle='-', color=color[0], label='Sum')
+            ax1.plot(x, data_a, linestyle='--',
+                     color=color[1], label='B$_{(2x1)}$')
             ax1.plot(x, data_b, linestyle=':', color=color[2], label='Bulk')
-            ax1.plot(x, data_c, linestyle='-.', color=color[3], label='B1')
-            ax1.plot(x, data_d, linestyle='-', color=color[4], label='B2')
+            ax1.plot(x, data_c, linestyle='-.',
+                     color=color[3], label='C$_{Si1}$')
+            ax1.plot(x, data_d, linestyle='-',
+                     color=color[4], label='C$_{Si2}$')
 
         elif 99 < df['Binding Energy'].mean() < 102:
             # set peak pairs
@@ -155,15 +164,17 @@ def Plot(df):
             data_b1 = df['Peak 3']
             data_b2 = df['Peak 4']
 
+            axis_size = [106, 98]
+
             # plot peaks against binding energy
-            ax1.plot(x, data_measured, '.', color='black')
-            ax1.plot(x, data_fit, color=color[0], linestyle='-')
-            ax1.plot(x, data_a1, color=color[1],
-                     linestyle='--', label='Si1')
-            ax1.plot(x, data_a2, color=color[1], linestyle='--')
-            ax1.plot(x, data_b1, color=color[2],
-                     linestyle=':', label='Si2')
-            ax1.plot(x, data_b2, color=color[2], linestyle=':',)
+            ax1.plot(x, data_measured, '.', color='black', label='Data')
+            ax1.plot(x, data_fit, color=color[0], linestyle='-', label='Sum')
+            ax1.plot(x, data_a1, color=color[2],
+                     linestyle=':', label='Si$^{2+}$')
+            ax1.plot(x, data_a2, color=color[2], linestyle=':')
+            ax1.plot(x, data_b1, color=color[3],
+                     linestyle='-.', label='Si$^{1+}$')
+            ax1.plot(x, data_b2, color=color[3], linestyle='-.',)
         else:
             # set peak pairs
             data_a1 = df['Peak 1']
@@ -171,19 +182,29 @@ def Plot(df):
             data_a2 = df['Peak 3']
             data_b2 = df['Peak 4']
 
+            axis_size = [241, 227]
+
             # plot peaks against binding energy
-            ax1.plot(x, data_measured, '.', color='black')
-            ax1.plot(x, data_fit, color=color[0], linestyle='-')
+            ax1.plot(x, data_measured, '.', color='black', label='Data')
+            ax1.plot(x, data_fit, color=color[0], linestyle='-', label='Sum')
             ax1.plot(x, data_a1, color=color[1],
-                     linestyle='--', label='Doublet A')
+                     linestyle='--', label='Mo$^{6+}$')
             ax1.plot(x, data_a2, color=color[1], linestyle='--')
             ax1.plot(x, data_b1, color=color[2],
-                     linestyle=':', label='Doublet B')
+                     linestyle=':', label='Mo$^{5+}$')
             ax1.plot(x, data_b2, color=color[2], linestyle=':',)
 
         # label Chart
         plt.legend(loc="upper right")
         ax1.set_xlabel('Binding Energy (eV)')  # global
-        ax1.set_ylabel('Count (# electrons)')  # global
+        ax1.set_ylabel('Arbitrary Units')  # global
+        ax1.set_yticklabels([])
+        ax1.set_yticklabels([])
 
+        # if axis_size is not None:
+        # set the xlim to left, right
+        plt.xlim(axis_size[0], axis_size[1])
+#        plt.xlim(287, 281)
+
+    return plt
     return plt
