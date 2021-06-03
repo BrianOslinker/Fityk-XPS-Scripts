@@ -59,7 +59,7 @@ with plt.style.context(['seaborn-colorblind']):
     # plt.legend(bbox_to_anchor=(1.04, 1), loc="upper left")
 
     ax1.set_xlabel('Binding Energy')  # global
-    ax1.set_ylabel('Count (# electrons)')  # global
+    ax1.set_ylabel('Arbitrary Units')  # global
     ax1.set_yticklabels([])  # remove numbers from y axis
 
     if df['x1'].mean() > 240:

@@ -48,7 +48,7 @@ with plt.style.context(['seaborn-colorblind']):
     plt.legend(loc='upper left')
     plt.title('Shirley Background')
     ax1.set_xlabel('Binding Energy (eV)')  # global
-    ax1.set_ylabel('Count (# electrons)')  # global
+    ax1.set_ylabel('Arbitrary Units')  # global
     ax1.set_yticklabels([])  # remove numbers from y axis
     plt.tight_layout()
 
