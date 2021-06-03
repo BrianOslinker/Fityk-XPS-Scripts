@@ -34,10 +34,10 @@ with plt.style.context(['seaborn-colorblind']):
     # plot peaks against binding energy
     #ax1.plot(df['x'], df['y'], 'o', color=color)
 
-    ax1.errorbar(df['x'], df['y'], yerr=0.025,
-                 fmt='o', capsize=2, color='black')
+    ax1.errorbar(df['x'], df['y'], yerr=0.05,
+                 fmt='o', capsize=2)
 
-    ax1.plot(df['x'], df['y'], linestyle='--')
+    ax1.plot(df['x'], df['y'], linestyle='--', color='orange')
 
     plt.axhline(y=0, linestyle=':', color='black')
 

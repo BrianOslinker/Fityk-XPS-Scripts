@@ -27,6 +27,17 @@ df = pd.read_table(file, delimiter=' ', names=['x', 'y'])
 
 df['x'] = 850 - df['x']
 
+# return row of largest y
+c1s = df.nlargest(1, 'y')
+
+# lazy way to get other core levels
+df2 = df[df['x'] < 250]
+si2p = df2.nlargest(1, 'y')
+
+df3 = df[df['x'] > 300]
+o1s = df3.nlargest(1, 'y')
+
+
 with plt.style.context(['seaborn-colorblind']):
 
     # create figure
@@ -40,7 +51,13 @@ with plt.style.context(['seaborn-colorblind']):
 
     # label Chart
     # plt.legend(bbox_to_anchor=(1.04, 1), loc="upper left")
-    plt.title('Wide Scan')
+
+    # label peaks
+    plt.text(c1s['x']-5, c1s['y'], 'C 1s')
+    plt.text(si2p['x']-5, si2p['y'], 'Si 2p')
+    plt.text(o1s['x']-5, o1s['y'], 'O 1s')
+
+    plt.title('850 eV Survey Scan')
     ax1.set_xlabel('Binding Energy (eV)')  # global
     ax1.set_ylabel('Count (# electrons)')  # global
     ax1.set_yticklabels([])  # remove numbers from y axis

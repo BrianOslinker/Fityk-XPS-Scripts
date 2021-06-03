@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Fri May  7 13:15:57 2021
+Created on Thu Jun  3 22:04:21 2021
 
 @author: brianoslinker
 """
@@ -12,6 +12,7 @@ from tkinter import filedialog
 import os
 from matplotlib import pyplot as plt
 import pandas as pd
+import numpy as np
 
 # import data
 root = tk.Tk()
@@ -22,33 +23,40 @@ output = filedialog.askdirectory(
     title='Select Save Folder')                           # asks where to save
 root.destroy()
 
-df = pd.read_csv(file, names=['x', 'y'])
+# read data
+df = pd.read_csv(file)
+
+# cut parts
+df = df[df['Coverage'] < 1.0]
+
+x = df['Molecules']
+y = df['Delta Theta']
+
+m, b = np.polyfit(x, df['Delta Theta'], 1)
 
 with plt.style.context(['seaborn-colorblind']):
 
     # create figure
     fig, ax1 = plt.subplots()
-    plt.tight_layout()
-#    ax1.figsize = (8.5, 4)
 
-    # plot peaks against binding energy
-    #ax1.plot(df['x'], df['y'], 'o', color=color)
+    ax1.scatter(x, df['Delta Theta'])
 
-    ax1.errorbar(df['x'], df['y'], yerr=0.05,
-                 fmt='o', capsize=2)
+    plt.plot(x, m*x, linestyle=':', label='Best Fit')
 
-    ax1.plot(df['x'], df['y'], linestyle='--', color='orange')
-
-    plt.axhline(y=0, linestyle=':', color='black')
+    for i in range(0, df.shape[0]):
+        plt.text(x[i]+0.5e12, y[i], str(df.iloc[i, 0])+' ML')
 
     # label Chart
-    # plt.legend(bbox_to_anchor=(1.04, 1), loc="upper left")
-    plt.title('C1s BE Shift')
-    ax1.set_xlabel('Monolayers (ML)')  # global
-    ax1.set_ylabel('Electron Volt Shift (eV)')  # global
+    plt.legend(loc='upper left')
+    plt.title('Change in Surface Dipole Potential')
+    ax1.set_xlabel('Aeral Density N$^-_A cm^{-2}$')  # global
+    ax1.set_ylabel('Change in Surface Dipole (eV)')  # global
+    plt.xlim(right=x.max()+0.4e13)
     plt.tight_layout()
 
 # saves as .svg with same name as the .dat file
 filename = os.path.basename(str(file))          # removes path from file
+filename = os.path.splitext(filename)[0]        # removes .dat from file
+fig.savefig(os.path.join(output, filename + ".svg"))  # saves as svg
 filename = os.path.splitext(filename)[0]        # removes .dat from file
 fig.savefig(os.path.join(output, filename + ".svg"))  # saves as svg

@@ -197,7 +197,7 @@ def Plot(df):
         # label Chart
         plt.legend(loc="upper right")
         ax1.set_xlabel('Binding Energy (eV)')  # global
-        ax1.set_ylabel('Count (# electrons)')  # global
+        ax1.set_ylabel('Arbitrary Units')  # global
         ax1.set_yticklabels([])
         ax1.set_yticklabels([])
 

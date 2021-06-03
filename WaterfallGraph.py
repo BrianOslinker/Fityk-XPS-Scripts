@@ -24,6 +24,9 @@ root.destroy()
 
 # set line styles
 line = ['-', '--', ':', '-.']
+# set legend
+leg = ['0.0 ML', '0.05 ML', '0.1 ML', '0.2 ML',
+       '0.4 ML', '0.6 ML', '1.0 ML', '1.5 ML', '3.0 Ml', '4.0 ML']
 
 # read file
 df = pd.read_csv(file)
@@ -33,11 +36,11 @@ col = int(len(df.columns)/2)
 
 # change to binding energy
 if df['x1'].mean() < 60:
-    for i in range(1, col):
-        df['x'+str(i)] = 150 - df['x'+str(i)]
+    for i in range(0, col):
+        df['x'+str(i+1)] = 150 - df['x'+str(i+1)]
 else:
-    for i in range(1, col):
-        df['x'+str(i)] = 350 - df['x'+str(i)]
+    for i in range(0, col):
+        df['x'+str(i+1)] = 350 - df['x'+str(i+1)]
 
 with plt.style.context(['seaborn-colorblind']):
 
@@ -46,8 +49,9 @@ with plt.style.context(['seaborn-colorblind']):
 #    ax1.invert_xaxis()  # invert x-axis to follow XPS plot convention
 
     # plot peaks against binding energy
-    for i in range(1, col):
-        ax1.plot(df['x'+str(i)], df['y'+str(i)], linestyle=line[(i % 4)-1])
+    for i in range(0, col):
+        ax1.plot(df['x'+str(i+1)], df['y'+str(i+1)],
+                 linestyle=line[(i % 4)], label=leg[i])
 
     ax1.invert_xaxis()  # invert x-axis to follow XPS plot convention
 
@@ -66,6 +70,7 @@ with plt.style.context(['seaborn-colorblind']):
         plt.xlim(106, 98)
 
     plt.tight_layout()
+    plt.legend(loc="upper right")
 
 # saves as .svg with same name as the .dat file
 filename = os.path.basename(str(file))          # removes path from file
