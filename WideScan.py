@@ -27,40 +27,22 @@ df = pd.read_table(file, delimiter=' ', names=['x', 'y'])
 
 df['x'] = 850 - df['x']
 
-# return row of largest y
-c1s = df.nlargest(1, 'y')
-
-# lazy way to get other core levels
-df2 = df[df['x'] < 250]
-si2p = df2.nlargest(1, 'y')
-
-df3 = df[df['x'] > 300]
-o1s = df3.nlargest(1, 'y')
-
-
 with plt.style.context(['seaborn-colorblind']):
 
     # create figure
     fig, ax1 = plt.subplots()
     ax1.invert_xaxis()  # invert x-axis to follow XPS plot convention
     plt.tight_layout()
-#    ax1.figsize = (8.5, 4)
+    ax1.figsize = (8.5, 4)
 
     # plot peaks against binding energy
     ax1.plot(df['x'], df['y'])
 
     # label Chart
     # plt.legend(bbox_to_anchor=(1.04, 1), loc="upper left")
-
-    # label peaks
-    plt.text(c1s['x']-5, c1s['y'], 'C 1s')
-    plt.text(si2p['x']-5, si2p['y'], 'Si 2p')
-    plt.text(o1s['x']-5, o1s['y'], 'O 1s')
-
-    plt.title('850 eV Survey Scan')
+    plt.title('Wide Scan')
     ax1.set_xlabel('Binding Energy (eV)')  # global
-    ax1.set_ylabel('Arbitrary Units')  # global
-    ax1.set_yticklabels([])  # remove numbers from y axis
+    ax1.set_ylabel('Count (# electrons)')  # global
     plt.tight_layout()
 
 # saves as .svg with same name as the .dat file
