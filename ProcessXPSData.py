@@ -67,16 +67,92 @@ def ProcessData(path):
     return df
 
 
-def Plot(df):
+def ImprovedPlot(df):
+    with plt.style.context(['seaborn-colorblind']):
 
+        color = sns.color_palette("colorblind", 6)
+
+        x = df['Binding Energy']    # set binding energy to x for convenience
+
+        # set fit and measured
+        data_fit = df['Fit']
+        data_measured = df['Measured']
+
+        # create figure
+        fig, ax1 = plt.subplots()
+        ax1.invert_xaxis()  # invert x-axis to follow XPS plot convention
+        plt.tight_layout()
+
+        col = len(df.columns)  # Size
+
+        line = ['--', ':', '-.', '-']
+
+        '"PLOT"'
+
+        #axis_size = [287, 281]
+        ax1.plot(x, data_measured, '.', color='black', label='Data')
+        ax1.plot(x, data_fit, linestyle='-', color=color[0], label='Sum')
+
+        for i in range(1, col-3):
+            ax1.plot(x, df['Peak ' + str(i)], linestyle=line[i-1],
+                     color=color[i-1])  # label
+
+        """
+        1. plot normal figure
+        2. plot subplot below
+        3. plot each file with a offset
+        """
+
+    return plt
+
+
+def WaterfallPlot(df):
+
+    offset = 1000  # defines offset
+
+    x = df['Binding Energy']    # set binding energy to x for convenience
+
+    # set fit and measured
+    data_fit = df['Fit']
+    data_measured = df['Measured']
+
+    # create figure
+    fig, ax1 = plt.subplots()
+    ax1.invert_xaxis()  # invert x-axis to follow XPS plot convention
+    plt.tight_layout()
+
+    col = len(df.columns)  # Size
+
+    line = ['--', ':', '-.', '-']
+
+    '"PLOT"'
+
+    #axis_size = [287, 281]
+    ax1.plot(x, data_measured, '.', color='black', label='Data')
+    ax1.plot(x, data_fit, linestyle='-', color=color[0], label='Sum')
+
+    for i in range(1, col-3):
+        ax1.plot(x, df['Peak ' + str(i)], linestyle=line[i-1],
+                 color=color[i-1])  # label
+
+    """
+    1. plot normal figure
+    2. plot subplot below
+    3. plot each file with a offset
+    """
+
+
+def DeprecatedPlot(df):
+    """Create graph for C1s, Si2p, and Mo3d XPS measurements."""
     # color = ['black', 'orange', 'red', 'green', 'blue', 'violet']
     with plt.style.context(['seaborn-colorblind']):
         # set binding energy to x for convenience
         x = df['Binding Energy']
 
+        'DEFINE COLOR PALETTE'
         color = sns.color_palette("colorblind", 6)
 
-        # print(color[:])
+        # print(color[:]) 'debug only'
 
         # set fit and measured
         data_fit = df['Fit']
@@ -187,24 +263,23 @@ def Plot(df):
             # plot peaks against binding energy
             ax1.plot(x, data_measured, '.', color='black', label='Data')
             ax1.plot(x, data_fit, color=color[0], linestyle='-', label='Sum')
-            ax1.plot(x, data_a1, color=color[1],
-                     linestyle='--', label='Mo$^{6+}$')
-            ax1.plot(x, data_a2, color=color[1], linestyle='--')
-            ax1.plot(x, data_b1, color=color[2],
-                     linestyle=':', label='Mo$^{5+}$')
-            ax1.plot(x, data_b2, color=color[2], linestyle=':',)
+            ax1.plot(x, data_a1, color=color[2],
+                     linestyle='--', label='Mo$^{5+}$')
+            ax1.plot(x, data_a2, color=color[2], linestyle='--')
+            ax1.plot(x, data_b1, color=color[3],
+                     linestyle=':', label='Mo$^{4+}$')
+            ax1.plot(x, data_b2, color=color[3], linestyle=':',)
 
-        # label Chart
+        """" label Chart"""
         plt.legend(loc="upper right")
         ax1.set_xlabel('Binding Energy (eV)')  # global
         ax1.set_ylabel('Arbitrary Units')  # global
         ax1.set_yticklabels([])
-        ax1.set_yticklabels([])
+        plt.yticks([])                                  # remove y tick marks
 
         # if axis_size is not None:
         # set the xlim to left, right
         plt.xlim(axis_size[0], axis_size[1])
-#        plt.xlim(287, 281)
 
     return plt
     return plt

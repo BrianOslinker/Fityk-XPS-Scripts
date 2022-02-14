@@ -16,12 +16,13 @@ from pathlib2 import Path
 
 # import data
 root = tk.Tk()
-root.withdraw()                                           # hides empty window
+root.attributes('-topmost', True)                       # forces window to top
+root.withdraw()                                         # hides empty window
 directory = filedialog.askdirectory(
-    title='Select Data Folder')                           # asks user for files
+    title='Select Data Folder')                         # asks user for files
 output = filedialog.askdirectory(
-    title='Select Save Folder')                           # asks where to save
-root.destroy()                                            # removes window
+    title='Select Save Folder')                         # asks where to save
+root.destroy()                                          # removes window
 
 # creates a list of .dat files in the directory
 pathlist = Path(directory).rglob('*.dat')
@@ -32,7 +33,7 @@ for path in pathlist:
     # choose data file
     df = xps.ProcessData(path)
 
-    fig = xps.Plot(df)
+    fig = xps.ImprovedPlot(df)  # Plots Figure
 
     # saves as .svg with same name as the .dat file
     filename = os.path.basename(str(path))          # removes path from file
