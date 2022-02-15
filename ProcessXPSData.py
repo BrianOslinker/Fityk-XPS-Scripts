@@ -81,7 +81,7 @@ def ImprovedPlot(df):
         # create figure
         fig, ax1 = plt.subplots()
         ax1.invert_xaxis()  # invert x-axis to follow XPS plot convention
-        plt.tight_layout()
+        # plt.tight_layout()
 
         col = len(df.columns)  # Size
 
@@ -103,10 +103,10 @@ def ImprovedPlot(df):
         3. plot each file with a offset
         """
 
-    return plt
+    return ax1
 
 
-def WaterfallPlot(df):
+def UNFINISHED_WaterfallPlot(df):
 
     offset = 1000  # defines offset
 
@@ -281,5 +281,4 @@ def DeprecatedPlot(df):
         # set the xlim to left, right
         plt.xlim(axis_size[0], axis_size[1])
 
-    return plt
     return plt
