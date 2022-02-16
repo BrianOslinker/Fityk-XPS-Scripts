@@ -97,16 +97,12 @@ def ImprovedPlot(df):
             ax1.plot(x, df['Peak ' + str(i)], linestyle=line[i-1],
                      color=color[i-1])  # label
 
-        """
-        1. plot normal figure
-        2. plot subplot below
-        3. plot each file with a offset
-        """
-
-    return ax1
+    return plt
 
 
 def UNFINISHED_WaterfallPlot(df):
+    """I abandoned this and wrote it all in Waterfall.py but am waiting to 
+    delete it until I have that one working well."""
 
     offset = 1000  # defines offset
 

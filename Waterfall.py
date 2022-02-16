@@ -6,7 +6,6 @@ Created on Tue Feb 15 00:54:53 2022
 """
 
 # import packages
-
 import seaborn as sns
 import tkinter as tk
 import os
@@ -40,7 +39,7 @@ axis[0] = fig.add_subplot(gs[0, :])
 axis[1] = fig.add_subplot(gs[1, :])
 '''
 
-w, h = figaspect(1.5/1)
+w, h = figaspect(1.5/1)  # defines plot aspect ratio
 
 fig, axis = plt.subplots(2, 1, sharex=True, gridspec_kw={
                          'height_ratios': [1, 2]}, figsize=(w, h))
