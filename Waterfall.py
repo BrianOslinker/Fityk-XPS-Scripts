@@ -67,7 +67,6 @@ for path in pathlist:
     data_measured = df['Measured']
 
     # plot figure
-    axis[1].plot(x, data_fit - (i*offset), color='grey')
 
     if i == 0:
         color = sns.color_palette("colorblind", 6)
@@ -79,6 +78,8 @@ for path in pathlist:
         for i in range(1, col-3):
             axis[0].plot(x, df['Peak ' + str(i)], linestyle=line[i-1],
                          color=color[i-1])
+    else:
+        axis[1].plot(x, data_fit - (i*offset), color='grey')
 
     i = i+1
 
