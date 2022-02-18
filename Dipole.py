@@ -24,8 +24,6 @@ output = filedialog.askdirectory(
     title='Select Save Folder')                           # asks where to save
 root.destroy()
 
-Scale = 0.4e13
-
 # read data
 df = pd.read_csv(file)
 
