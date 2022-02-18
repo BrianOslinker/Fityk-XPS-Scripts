@@ -15,6 +15,7 @@ import pandas as pd
 
 # import data
 root = tk.Tk()
+root.attributes('-topmost', True)                       # forces window to top
 root.withdraw()                                           # hides empty window
 file = filedialog.askopenfile(
     title='Select Data Folder')                           # asks user for files

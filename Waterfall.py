@@ -75,9 +75,9 @@ for path in pathlist:
         axis[0].plot(x, data_fit, linestyle='-', color=color[0])
         line = ['--', ':', '-.', '-']
 
-        for i in range(1, col-3):
-            axis[0].plot(x, df['Peak ' + str(i)], linestyle=line[i-1],
-                         color=color[i-1])
+        for j in range(1, col-3):
+            axis[0].plot(x, df['Peak ' + str(j)], linestyle=line[j-1],
+                         color=color[j-1])
     else:
         axis[1].plot(x, data_fit - (i*offset), color='grey')
 
