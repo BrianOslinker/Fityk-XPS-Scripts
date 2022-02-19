@@ -30,6 +30,9 @@ offset = 2.5e5  # defines offset (as electron counts so use big numbers)
 # creates a list of .dat files in the directory
 pathlist = Path(directory).rglob('*.dat')
 
+Coverage = [0.00, 0.05, 0.10, 0.15, 0.20, 0.30,
+            0.40, 0.60, 0.80, 1.00, 1.20, 1.50, 2.00, 3.00, 4.00]
+
 # create figure
 '''
 fig = plt.figure(constrained_layout=True)
@@ -39,19 +42,21 @@ axis[0] = fig.add_subplot(gs[0, :])
 axis[1] = fig.add_subplot(gs[1, :])
 '''
 
-w, h = figaspect(1.5/1)  # defines plot aspect ratio
+w, h = figaspect(2/1)  # defines plot aspect ratio
 
-fig, axis = plt.subplots(2, 1, sharex=True, gridspec_kw={
-                         'height_ratios': [1, 2]}, figsize=(w, h))
+# fig, axis = plt.subplots(2, 1, sharex=True, gridspec_kw={
+#                         'height_ratios': [1, 2]}, figsize=(w, h))
 
-for a in axis:
-    #    a.set_yticklabels([])
-    a.set_yticks([])
+fix, axis = plt.subplots(figsize=(w, h))
+
+# for a in axis:
+#    a.set_yticklabels([])
+axis.set_yticks([])
 
 '''adjust plot settings'''
-plt.subplots_adjust(hspace=0)
+# plt.subplots_adjust(hspace=0)
 
-axis[1].invert_xaxis()
+axis.invert_xaxis()
 
 i = 0
 # parses each .dat file
@@ -71,17 +76,22 @@ for path in pathlist:
     if i == 0:
         color = sns.color_palette("colorblind", 6)
         col = len(df.columns)
-        axis[0].plot(x, data_measured, '.', color='Black')
-        axis[0].plot(x, data_fit, linestyle='-', color=color[0])
+        axis.plot(x, data_measured, '.', color='Black')
+        axis.plot(x, data_fit, linestyle='-', color=color[0])
         line = ['--', ':', '-.', '-']
 
         for j in range(1, col-3):
-            axis[0].plot(x, df['Peak ' + str(j)], linestyle=line[j-1],
-                         color=color[j-1])
+            axis.plot(x, df['Peak ' + str(j)], linestyle=line[j-1],
+                      color=color[j-1])
     else:
-        axis[1].plot(x, data_fit - (i*offset), color='grey')
+        axis.plot(x, data_fit - (i*offset), color='grey')
+
+    plt.text(x.min()-.1, (data_fit.iloc[-1] -
+                          (i*offset)), str(Coverage[i])+' ML')
 
     i = i+1
+
+plt.axhline(y=0, linestyle='-', linewidth=.5, color='black')
 
 # saves as .svg with same name as the .dat file
 filename = os.path.basename(str(path))          # removes path from file
