@@ -58,7 +58,7 @@ axis.set_yticks([])
 
 axis.invert_xaxis()
 
-i = 0
+i = 2
 # parses each .dat file
 for path in pathlist:
 
@@ -73,7 +73,9 @@ for path in pathlist:
 
     # plot figure
 
-    if i == 0:
+    if i == 2:
+        offset = data_measured.max()*.25
+
         color = sns.color_palette("colorblind", 6)
         col = len(df.columns)
         axis.plot(x, data_measured, '.', color='Black')
@@ -83,24 +85,29 @@ for path in pathlist:
         for j in range(1, col-3):
             axis.plot(x, df['Peak ' + str(j)], linestyle=line[j-1],
                       color=color[j-1])
+
+        xlabel = x.min()-1.5
+
+        plt.text(xlabel, (data_fit.iloc[-1]), str(Coverage[i-2])+' ML')
+
     else:
         axis.plot(x, data_fit - (i*offset), color='grey')
 
-    plt.text(x.min()-.1, (data_fit.iloc[-1] -
-                          (i*offset)), str(Coverage[i])+' ML')
+        plt.text(xlabel, (data_fit.iloc[-1] -
+                          (i*offset)), str(Coverage[i-2])+' ML')
 
     i = i+1
 
 plt.axhline(y=0, linestyle='-', linewidth=.5, color='black')
 
+# plt.title("Si2p")     # gives the plot the same title as the filename
+axis.set_xlabel('Binding Energy (eV)')
+axis.set_ylabel('Arbitrary Units')
+# plt.tight_layout()
+# axis[0].invert_xaxis()  # invert x-axis to follow XPS plot convention
+
 # saves as .svg with same name as the .dat file
 filename = os.path.basename(str(path))          # removes path from file
 filename = os.path.splitext(filename)[0]        # removes .dat from file
-
-# plt.title("Si2p")     # gives the plot the same title as the filename
-# plt.set_xlabel('Binding Energy (eV)')  # global
-# plt.set_ylabel('Arbitrary Units')  # global
-# plt.tight_layout()
-# axis[0].invert_xaxis()  # invert x-axis to follow XPS plot convention
 
 plt.savefig(os.path.join(output, filename + ".svg"))  # saves as svg
