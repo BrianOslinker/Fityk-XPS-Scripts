@@ -8,11 +8,12 @@ Created on Thu Jun  3 22:04:21 2021
 
 # import packages
 import tkinter as tk
-from tkinter import filedialog
 import os
-from matplotlib import pyplot as plt
 import pandas as pd
 import numpy as np
+from tkinter import filedialog
+from matplotlib import pyplot as plt
+
 
 # import data
 root = tk.Tk()

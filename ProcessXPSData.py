@@ -7,9 +7,9 @@ Created on Tue Mar 16 14:38:30 2021
 """
 
 # import packages
-from matplotlib import pyplot as plt
 import pandas as pd
 import seaborn as sns
+from matplotlib import pyplot as plt
 
 
 def ProcessData(path):
@@ -68,6 +68,7 @@ def ProcessData(path):
 
 
 def ImprovedPlot(df):
+    """Now short enough to be incorperated into scripts."""
     with plt.style.context(['seaborn-colorblind']):
 
         color = sns.color_palette("colorblind", 6)
@@ -88,8 +89,7 @@ def ImprovedPlot(df):
         line = ['--', ':', '-.', '-']
 
         '"PLOT"'
-
-        #axis_size = [287, 281]
+        # axis_size = [287, 281]
         ax1.plot(x, data_measured, '.', color='black', label='Data')
         ax1.plot(x, data_fit, linestyle='-', color=color[0], label='Sum')
 
@@ -98,44 +98,6 @@ def ImprovedPlot(df):
                      color=color[i-1])  # label
 
     return plt
-
-
-def UNFINISHED_WaterfallPlot(df):
-    """I abandoned this and wrote it all in Waterfall.py but am waiting to 
-    delete it until I have that one working well."""
-
-    offset = 1000  # defines offset
-
-    x = df['Binding Energy']    # set binding energy to x for convenience
-
-    # set fit and measured
-    data_fit = df['Fit']
-    data_measured = df['Measured']
-
-    # create figure
-    fig, ax1 = plt.subplots()
-    ax1.invert_xaxis()  # invert x-axis to follow XPS plot convention
-    plt.tight_layout()
-
-    col = len(df.columns)  # Size
-
-    line = ['--', ':', '-.', '-']
-
-    '"PLOT"'
-
-    #axis_size = [287, 281]
-    ax1.plot(x, data_measured, '.', color='black', label='Data')
-    ax1.plot(x, data_fit, linestyle='-', color=color[0], label='Sum')
-
-    for i in range(1, col-3):
-        ax1.plot(x, df['Peak ' + str(i)], linestyle=line[i-1],
-                 color=color[i-1])  # label
-
-    """
-    1. plot normal figure
-    2. plot subplot below
-    3. plot each file with a offset
-    """
 
 
 def DeprecatedPlot(df):
