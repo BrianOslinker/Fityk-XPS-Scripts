@@ -29,19 +29,20 @@ root.destroy()                                          # removes window
 # creates a list of .dat files in the directory
 pathlist = Path(directory).rglob('*.dat')
 
-# list of coverage for vairous does
+# list of coverage for vairous doses
 Coverage = [0.00, 0.05, 0.10, 0.15, 0.20, 0.30,
             0.40, 0.60, 0.80, 1.00, 1.20, 1.50, 2.00, 3.00, 4.00]
 
 
 # create plot with aspect ratio
-w, h = figaspect(2/1)  # defines plot aspect ratio
+w, h = figaspect(2/1)                   # defines plot aspect ratio
 fix, axis = plt.subplots(figsize=(w, h))
 
-axis.set_yticks([])                 # removes y-axis tick marks
-axis.invert_xaxis()                 # inverts x-axis (traditional for xps)
+axis.set_yticks([])                     # removes y-axis tick marks
+axis.invert_xaxis()                     # inverts x-axis (traditional for xps)
 
-i = 2
+i = 2                           # determines the spacing of first 'waterfall'
+
 # parses each .dat file
 for path in pathlist:
 
@@ -54,7 +55,9 @@ for path in pathlist:
     data_measured = df['Measured']
 
     "# plot figure"
-    if i == 2:
+    if i == 2:                  # plots the full C1s spectra for first loop
+
+        # set offset as % of the max value of first (largest) dose
         offset = data_measured.max()*.25
 
         # set colors and styles for component functions of first plot
@@ -64,29 +67,34 @@ for path in pathlist:
         axis.plot(x, data_fit, linestyle='-', color=color[0])
         line = ['--', ':', '-.', '-']
 
+        # plots the various peaks in the first dose
         for j in range(1, col-3):
             axis.plot(x, df['Peak ' + str(j)], linestyle=line[j-1],
                       color=color[j-1])
 
+        # sets location of ML labels
         xlabel = x.min()-1.5
 
+        # label for the first envelope
         plt.text(xlabel, (data_fit.iloc[-1]), str(Coverage[i-2])+' ML')
 
+        # plots envelope of following doses
     else:
         axis.plot(x, data_fit - (i*offset), color='grey')
 
+        # adds ML label to data
         plt.text(xlabel, (data_fit.iloc[-1] -
                           (i*offset)), str(Coverage[i-2])+' ML')
 
-    i = i+1
+    i = i+1                                             # increase counter
 
+# plot line at y = 0
 plt.axhline(y=0, linestyle='-', linewidth=.5, color='black')
 
-# plt.title("Si2p")     # gives the plot the same title as the filename
+# set x and y axis labels
 axis.set_xlabel('Binding Energy (eV)')
 axis.set_ylabel('Arbitrary Units')
 # plt.tight_layout()
-# axis[0].invert_xaxis()  # invert x-axis to follow XPS plot convention
 
 # saves as .svg with same name as the .dat file
 filename = os.path.basename(str(path))          # removes path from file
