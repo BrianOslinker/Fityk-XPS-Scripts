@@ -55,10 +55,11 @@ for path in pathlist:
     data_measured = df['Measured']
 
     "# plot figure"
-    if i == 2:                  # plots the full C1s spectra for first loop
-
-        # set offset as % of the max value of first (largest) dose
+    if i == a:
         offset = data_measured.max()*.25
+        peakloc = df['Peak 2'].idxmax()
+        ypeak = data_fit.iloc[peakloc]
+        peak_center = x.iloc[peakloc]
 
         # set colors and styles for component functions of first plot
         color = sns.color_palette("colorblind", 6)

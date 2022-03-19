@@ -66,6 +66,8 @@ with plt.style.context(['seaborn-colorblind']):
     plt.tight_layout()
 
 # saves as .svg with same name as the .dat file
-filename = os.path.basename(str(file))                # removes path from file
-filename = os.path.splitext(filename)[0]              # removes .dat from file
+filename = os.path.basename(str(file))          # removes path from file
+filename = os.path.splitext(filename)[0]        # removes .dat from file
 fig.savefig(os.path.join(output, filename + ".svg"))  # saves as svg
+# filename = os.path.splitext(filename)[0]        # removes .dat from file
+# fig.savefig(os.path.join(output, filename + ".svg"))  # saves as svg
