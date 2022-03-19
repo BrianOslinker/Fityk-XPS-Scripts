@@ -33,15 +33,16 @@ pathlist = Path(directory).rglob('*.dat')
 Coverage = [0.00, 0.05, 0.10, 0.15, 0.20, 0.30,
             0.40, 0.60, 0.80, 1.00, 1.20, 1.50, 2.00, 3.00, 4.00]
 
+a = 3                           # set spaceing between first plot and waterfall
 
 # create plot with aspect ratio
-w, h = figaspect(2/1)                   # defines plot aspect ratio
+w, h = figaspect(3/1)                   # defines plot aspect ratio
 fix, axis = plt.subplots(figsize=(w, h))
 
 axis.set_yticks([])                     # removes y-axis tick marks
 axis.invert_xaxis()                     # inverts x-axis (traditional for xps)
 
-i = 3                           # determines the spacing of first 'waterfall'
+i = a                           # determines the spacing of first 'waterfall'
 
 # parses each .dat file
 for path in pathlist:
@@ -56,7 +57,7 @@ for path in pathlist:
 
     # peak_center = df['fit'].idxmax()                    # peak center
 
-    "# plot figure"
+    # plot figure
     if i == a:
 
         # set offset as % of the max value of first (largest) dose
@@ -78,7 +79,7 @@ for path in pathlist:
                       color=color[j-1])
 
         # sets location of ML labels
-        xlabel = x.min()-1.5
+        xlabel = x.min()-.5
 
         # label for the first envelope
         plt.text(xlabel, (data_fit.iloc[-1]), str(Coverage[i-2])+' ML')
@@ -91,12 +92,22 @@ for path in pathlist:
         plt.text(xlabel, (data_fit.iloc[-1] -
                           (i*offset)), str(Coverage[i-2])+' ML')
 
-    i = i+1                                             # increase counter
+    i = i+1     # increase counter
 
 # plot line at y = 0
 plt.axhline(y=0, linestyle='-', linewidth=.5, color='black')
 
-#plt.axvline(x=peak_center, color='b', label='axvline - full height')
+# plot vertical line from initial peak
+plt.vlines(x=peak_center, ymin=-(i*offset), ymax=ypeak)
+
+
+if peak_center <= 150:
+    BElim = [98, 106]
+else:
+    BElim = [281, 288]
+
+axis.set_xlim([BElim[1], BElim[0]])
+
 
 # set x and y axis labels
 axis.set_xlabel('Binding Energy (eV)')

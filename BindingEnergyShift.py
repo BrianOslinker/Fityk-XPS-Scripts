@@ -56,9 +56,8 @@ with plt.style.context(['seaborn-colorblind']):
 
     # label Chart
     plt.legend(loc="upper right")
-    plt.title('BE Shift')
-    ax1.set_xlabel('Monolayers (ML)')  # global
-    ax1.set_ylabel('Electron Volt Shift (eV)')  # global
+    ax1.set_xlabel('Coverage (ML)')  # global
+    ax1.set_ylabel('Binding Energy Shift (eV)')  # global
     plt.tight_layout()
 
 
