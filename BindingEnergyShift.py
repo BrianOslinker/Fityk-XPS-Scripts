@@ -46,14 +46,16 @@ with plt.style.context(['seaborn-colorblind']):
     ax1.errorbar(df2['x'], df2['y'], yerr=0.05,
                  fmt='^', capsize=2, color=color[1])
 
-    ax1.plot(df['x'], df['y'], linestyle='-.', color=color[0])
+    # plot C1s connecting line
+    ax1.plot(df['x'], df['y'], linestyle='-.', color=color[0], label="C1s")
 
-    ax1.plot(df2['x'], df2['y'], linestyle='--', color=color[1])
+    # plot Si2p connecting line
+    ax1.plot(df2['x'], df2['y'], linestyle='--', color=color[1], label="Si2p")
 
     plt.axhline(y=0, linestyle=':', color='black')
 
     # label Chart
-    # plt.legend(bbox_to_anchor=(1.04, 1), loc="upper left")
+    plt.legend(loc="upper right")
     plt.title('BE Shift')
     ax1.set_xlabel('Monolayers (ML)')  # global
     ax1.set_ylabel('Electron Volt Shift (eV)')  # global
@@ -61,7 +63,6 @@ with plt.style.context(['seaborn-colorblind']):
 
 
 # saves as .svg with same name as the .dat file
-# removes path from file
-filename = os.path.basename("BindingEnergyShift")
-filename = os.path.splitext(filename)[0]        # removes .dat from file
+filename = os.path.basename(str(file))                # removes path from file
+filename = os.path.splitext(filename)[0]              # removes .dat from file
 fig.savefig(os.path.join(output, filename + ".svg"))  # saves as svg

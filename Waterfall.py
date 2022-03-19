@@ -41,7 +41,7 @@ fix, axis = plt.subplots(figsize=(w, h))
 axis.set_yticks([])                     # removes y-axis tick marks
 axis.invert_xaxis()                     # inverts x-axis (traditional for xps)
 
-i = 2                           # determines the spacing of first 'waterfall'
+i = 3                           # determines the spacing of first 'waterfall'
 
 # parses each .dat file
 for path in pathlist:
@@ -54,8 +54,12 @@ for path in pathlist:
     data_fit = df['Fit']
     data_measured = df['Measured']
 
+    # peak_center = df['fit'].idxmax()                    # peak center
+
     "# plot figure"
     if i == a:
+
+        # set offset as % of the max value of first (largest) dose
         offset = data_measured.max()*.25
         peakloc = df['Peak 2'].idxmax()
         ypeak = data_fit.iloc[peakloc]
@@ -92,10 +96,12 @@ for path in pathlist:
 # plot line at y = 0
 plt.axhline(y=0, linestyle='-', linewidth=.5, color='black')
 
+#plt.axvline(x=peak_center, color='b', label='axvline - full height')
+
 # set x and y axis labels
 axis.set_xlabel('Binding Energy (eV)')
 axis.set_ylabel('Arbitrary Units')
-# plt.tight_layout()
+plt.tight_layout()
 
 # saves as .svg with same name as the .dat file
 filename = os.path.basename(str(path))          # removes path from file
