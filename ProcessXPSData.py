@@ -88,15 +88,21 @@ def ImprovedPlot(df):
 
         line = ['--', ':', '-.', '-']
 
+        label = ['Mo$^{6}$', 'Mo$^{5}$', 'Mo$^{4}$']
+
         '"PLOT"'
         # axis_size = [287, 281]
         ax1.plot(x, data_measured, '.', color='black', label='Data')
         ax1.plot(x, data_fit, linestyle='-', color=color[0], label='Sum')
 
-        for i in range(1, col-3):
+        for i in range(1, col-2):
             ax1.plot(x, df['Peak ' + str(i)], linestyle=line[i-1],
-                     color=color[i-1])  # label
+                     color=color[i], label=label[i-1])  # label
 
+        ax1.set_yticks([])
+        ax1.set_xlim([241, 227])
+        ax1.legend(loc='upper left')
+        ax1.set_xlabel("Binding Energy (eV)")
     return plt
 
 

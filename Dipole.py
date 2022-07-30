@@ -25,11 +25,14 @@ output = filedialog.askdirectory(
     title='Select Save Folder')                     # asks where to save
 root.destroy()
 
+# Set Font Size
+plt.rcParams['font.size'] = '16'
+
 # read data
 df = pd.read_csv(file)
 
 # cut parts
-df = df[df['Coverage'] <= 1.0]
+df = df[df['Coverage'] <= 0.4]
 
 # set values to x and y for convenience
 x = df['Molecules']
@@ -58,11 +61,11 @@ with plt.style.context(['seaborn-colorblind']):
         plt.text(x[i]+((x.max()*.025)), y[i], str(df.iloc[i, 0])+' ML')
 
     # label Chart
-    plt.legend(loc='upper left')
-    plt.title('Change in Surface Dipole Potential')
-    ax1.set_xlabel('Aeral Density N$^-_A cm^{-2}$')  # global
+#    plt.legend(loc='upper left')
+    # plt.title('Change in Surface Dipole Potential')
+    ax1.set_xlabel('Areal Density N$^-_A cm^{-2}$')  # global
     ax1.set_ylabel('Change in Surface Dipole (eV)')  # global
-    plt.xlim(right=x.max()+(x.max()*.15))
+    plt.xlim(right=x.max()*1.25)
     plt.tight_layout()
 
 # saves as .svg with same name as the .dat file
@@ -71,3 +74,4 @@ filename = os.path.splitext(filename)[0]        # removes .dat from file
 fig.savefig(os.path.join(output, filename + ".svg"))  # saves as svg
 # filename = os.path.splitext(filename)[0]        # removes .dat from file
 # fig.savefig(os.path.join(output, filename + ".svg"))  # saves as svg
+plt.rcdefaults

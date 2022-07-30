@@ -23,8 +23,14 @@ output = filedialog.askdirectory(
     title='Select Save Folder')                           # asks where to save
 root.destroy()
 
+# Set Font Size
+plt.rcParams['font.size'] = '16'
+
 # read data
 df = pd.read_csv(file)
+
+# Cut Parts
+df = df[df['Coverage'] <= 2.0]
 
 with plt.style.context(['seaborn-colorblind']):
 
@@ -53,7 +59,7 @@ with plt.style.context(['seaborn-colorblind']):
              color='dodgerblue', label='Mo$^{5+}$')
 
     # plt.errorbar(df['Coverage'], df['Mo6+'],
-    #             yerr = df['Mo6+ Error'], fmt = '.', capsize = 3, color = 'darkorange')
+    #           yerr=df['Mo6+ Error'], fmt='.', capsize=3, color='darkorange')
 
     # ax1.plot(df['Coverage'], df['Mo6+'], linestyle=':',
     #         color='orange', label='Mo$^{6+}$')
@@ -61,16 +67,18 @@ with plt.style.context(['seaborn-colorblind']):
     # label Chart
     # plt.legend(bbox_to_anchor=(1.04, 1), loc="upper left")
     # plt.legend(loc='upper right')
-    plt.title('Doping Efficiency of Mo$^{5+}$')
+    # plt.title('Doping Efficiency of Mo$^{5+}$')
     # [\frac{Mo^{5+}}{Mo^{5+}+Mo^{6+}}$])
-    ax1.set_xlabel('Monolayers (ML)')  # global
+    ax1.set_xlabel('MoO$_{3}$ Monolayers (ML)')  # global
     ax1.set_ylabel('Doping Efficiency')  # global
     plt.ylim(0, 1)
     plt.tight_layout()
 
+filename = 'Doping Efficiency'
 # saves as .svg with same name as the .dat file
-filename = os.path.basename(str(file))          # removes path from file
-filename = os.path.splitext(filename)[0]        # removes .dat from file
+# filename = os.path.basename(str(file))          # removes path from file
+# filename = os.path.splitext(filename)[0]        # removes .dat from file
 fig.savefig(os.path.join(output, filename + ".svg"))  # saves as svg
 # filename = os.path.splitext(filename)[0]        # removes .dat from file
 # fig.savefig(os.path.join(output, filename + ".svg"))  # saves as svg
+plt.rcdefaults
