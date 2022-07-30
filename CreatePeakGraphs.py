@@ -22,7 +22,11 @@ directory = filedialog.askdirectory(
     title='Select Data Folder')                         # asks user for files
 output = filedialog.askdirectory(
     title='Select Save Folder')                         # asks where to save
-root.destroy()                                          # removes window
+root.destroy()
+
+# Set Font Size
+# removes window
+plt.rcParams['font.size'] = '16'
 
 # creates a list of .dat files in the directory
 pathlist = Path(directory).rglob('*.dat')
@@ -34,12 +38,14 @@ for path in pathlist:
     df = xps.ProcessData(path)
 
     fig = xps.ImprovedPlot(df)  # Plots Figure
+#    fig = xps.DeprecatedPlot(df)
 
     # saves as .svg with same name as the .dat file
     filename = os.path.basename(str(path))          # removes path from file
     filename = os.path.splitext(filename)[0]        # removes .dat from file
 
-    plt.title(filename)     # gives the plot the same title as the filename
+#    plt.title(filename)     # gives the plot the same title as the filename
     plt.tight_layout()
 
     fig.savefig(os.path.join(output, filename + ".svg"))  # saves as svg
+plt.rcdefaults

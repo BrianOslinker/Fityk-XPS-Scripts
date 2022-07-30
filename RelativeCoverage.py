@@ -10,6 +10,7 @@ Created on Thu Jun  3 10:12:33 2021
 import tkinter as tk
 import os
 import pandas as pd
+import seaborn as sns
 from matplotlib import pyplot as plt
 from tkinter import filedialog
 
@@ -24,18 +25,25 @@ output = filedialog.askdirectory(
     title='Select Save Folder')                           # asks where to save
 root.destroy()
 
+# Set Font Size
+plt.rcParams['font.size'] = '16'
+
 # read data
 df = pd.read_csv(file)
 
+# Cut Parts
+df = df[df['Coverage'] <= 2.0]
+
 with plt.style.context(['seaborn-colorblind']):
 
+    color = sns.color_palette("colorblind", 6)
     # create figure
     fig, ax1 = plt.subplots()
     plt.tight_layout()
 #    ax1.figsize = (8.5, 4)
 
     # plot peaks against binding energy
-    #ax1.plot(df['x'], df['y'], 'o', color=color)
+    # ax1.plot(df['x'], df['y'], 'o', color=color)
 
 #    ax1.errorbar(df['x'], df['y'], yerr=0.05,
 #                 fmt='o', capsize=2)
@@ -45,22 +53,22 @@ with plt.style.context(['seaborn-colorblind']):
 #    plt.axhline(y=0, linestyle=':', color='black')
 
     plt.errorbar(df['Coverage'], df['Mo5+'],
-                 yerr=df['Mo5+ Error'], fmt='.', capsize=3, )
+                 yerr=df['Mo5+ Error'], color=color[2], fmt='.', capsize=3, )
 
     ax1.plot(df['Coverage'], df['Mo5+'], linestyle='--',
-             color='lightblue', label='Mo$^{5+}$')
+             color=color[2], label='Mo$^{5+}$')
 
     plt.errorbar(df['Coverage'], df['Mo6+'],
-                 yerr=df['Mo6+ Error'], fmt='.', capsize=3, color='darkorange')
+                 yerr=df['Mo6+ Error'], color=color[4], fmt='.', capsize=3)
 
     ax1.plot(df['Coverage'], df['Mo6+'], linestyle=':',
-             color='orange', label='Mo$^{6+}$')
+             color=color[4], label='Mo$^{6+}$')
 
     # label Chart
     # plt.legend(bbox_to_anchor=(1.04, 1), loc="upper left")
     plt.legend(loc='upper right')
-    plt.title('Relative  Coverage of Mo$^{5+}$ and Mo$^{6+}$')
-    ax1.set_xlabel('Monolayers (ML)')  # global
+    # plt.title('Relative  Coverage of Mo$^{5+}$ and Mo$^{6+}$')
+    ax1.set_xlabel('MoO$_{3}$ Monolayers (ML)')  # global
     ax1.set_ylabel('Coverage (%)')  # global
     plt.ylim(0, 100)
     plt.tight_layout()
@@ -71,3 +79,4 @@ filename = os.path.splitext(filename)[0]        # removes .dat from file
 fig.savefig(os.path.join(output, filename + ".svg"))  # saves as svg
 # filename = os.path.splitext(filename)[0]        # removes .dat from file
 # fig.savefig(os.path.join(output, filename + ".svg"))  # saves as svg
+plt.rcdefaults
